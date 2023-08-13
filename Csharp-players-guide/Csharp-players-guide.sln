@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03-hello-world", "03-hello-
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04-comments", "04-comments\04-comments.csproj", "{3AB80482-6EBF-452D-9F65-402EF7A45A21}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "05-variables", "05-variables\05-variables.csproj", "{26BEB823-8438-4EBB-B0C5-D9CC9668D5FE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{3AB80482-6EBF-452D-9F65-402EF7A45A21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3AB80482-6EBF-452D-9F65-402EF7A45A21}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3AB80482-6EBF-452D-9F65-402EF7A45A21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26BEB823-8438-4EBB-B0C5-D9CC9668D5FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26BEB823-8438-4EBB-B0C5-D9CC9668D5FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26BEB823-8438-4EBB-B0C5-D9CC9668D5FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26BEB823-8438-4EBB-B0C5-D9CC9668D5FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

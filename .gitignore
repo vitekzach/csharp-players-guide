@@ -1,4 +1,2 @@
-Csharp-players-guide/03-hello-world/bin
-Csharp-players-guide/03-hello-world/obj
-Csharp-players-guide/04-comments/bin
-Csharp-players-guide/04-comments/obj
+obj/
+bin/
