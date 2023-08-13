@@ -1,8 +1,8 @@
-using Challenges;
+using _03_hello_world.Challenges;
 
 public class Program
 {
-    static void Main()
+    private static void Main()
     {
         Console.WriteLine("_______________START______________");
         Console.WriteLine("Challenge 1 output:");

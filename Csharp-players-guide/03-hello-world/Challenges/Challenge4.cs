@@ -1,6 +1,7 @@
 //Challenge name: Consolas and Telim
+// Goal: Ask who the bread is for.
 
-namespace Challenges
+namespace _03_hello_world.Challenges
 {
     public class Challenge4
     {

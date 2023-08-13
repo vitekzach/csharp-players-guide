@@ -1,6 +1,7 @@
 ﻿// Challenge name: Hello, World!
+// Goal: Write Hello world to console 
 
-namespace Challenges
+namespace _03_hello_world.Challenges
 {
     public class Challenge1
     {

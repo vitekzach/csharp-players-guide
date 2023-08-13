@@ -1,6 +1,7 @@
 //Challenge name: The Makings of a Programmer
+// Goal: Write something 5 time to console.
 
-namespace Challenges
+namespace _03_hello_world.Challenges
 {
     public class Challenge3
     {
