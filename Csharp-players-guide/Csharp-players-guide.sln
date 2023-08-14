@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "07-math", "07-math\07-math.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "08-console-2", "08-console-2\08-console-2.csproj", "{9C18AF06-2F1B-4E01-92DA-B140308379C1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "09-decision-making", "09-decision-making\09-decision-making.csproj", "{5348D450-1777-487A-8747-41D37F84F0F9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,9 @@ Global
 		{9C18AF06-2F1B-4E01-92DA-B140308379C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C18AF06-2F1B-4E01-92DA-B140308379C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C18AF06-2F1B-4E01-92DA-B140308379C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5348D450-1777-487A-8747-41D37F84F0F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5348D450-1777-487A-8747-41D37F84F0F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5348D450-1777-487A-8747-41D37F84F0F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5348D450-1777-487A-8747-41D37F84F0F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
