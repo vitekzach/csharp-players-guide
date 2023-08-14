@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "08-console-2", "08-console-
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "09-decision-making", "09-decision-making\09-decision-making.csproj", "{5348D450-1777-487A-8747-41D37F84F0F9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "10-switches", "10-switches\10-switches.csproj", "{CEA2BD24-9092-43CE-9BD6-41A0FED6AB76}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,5 +50,9 @@ Global
 		{5348D450-1777-487A-8747-41D37F84F0F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5348D450-1777-487A-8747-41D37F84F0F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5348D450-1777-487A-8747-41D37F84F0F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEA2BD24-9092-43CE-9BD6-41A0FED6AB76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEA2BD24-9092-43CE-9BD6-41A0FED6AB76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEA2BD24-9092-43CE-9BD6-41A0FED6AB76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEA2BD24-9092-43CE-9BD6-41A0FED6AB76}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
