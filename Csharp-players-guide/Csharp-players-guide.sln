@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "12-arrays", "12-arrays\12-a
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "13-methods", "13-methods\13-methods.csproj", "{64E23B1C-3E0C-4796-8653-03F962621A01}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "14-memory-management", "14-memory-management\14-memory-management.csproj", "{435218ED-2894-4735-8556-FF66065168D5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,5 +74,9 @@ Global
 		{64E23B1C-3E0C-4796-8653-03F962621A01}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64E23B1C-3E0C-4796-8653-03F962621A01}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64E23B1C-3E0C-4796-8653-03F962621A01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{435218ED-2894-4735-8556-FF66065168D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{435218ED-2894-4735-8556-FF66065168D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{435218ED-2894-4735-8556-FF66065168D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{435218ED-2894-4735-8556-FF66065168D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
