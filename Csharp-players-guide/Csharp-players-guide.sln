@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "11-looping", "11-looping\11
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "12-arrays", "12-arrays\12-arrays.csproj", "{FE15571D-D4AC-49A0-A834-F34A0E2ECEB2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "13-methods", "13-methods\13-methods.csproj", "{64E23B1C-3E0C-4796-8653-03F962621A01}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,5 +68,9 @@ Global
 		{FE15571D-D4AC-49A0-A834-F34A0E2ECEB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE15571D-D4AC-49A0-A834-F34A0E2ECEB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE15571D-D4AC-49A0-A834-F34A0E2ECEB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64E23B1C-3E0C-4796-8653-03F962621A01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64E23B1C-3E0C-4796-8653-03F962621A01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64E23B1C-3E0C-4796-8653-03F962621A01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64E23B1C-3E0C-4796-8653-03F962621A01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
