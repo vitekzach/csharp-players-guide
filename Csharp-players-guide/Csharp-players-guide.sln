@@ -26,6 +26,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "14-memory-management", "14-
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "16-enumerations", "16-enumerations\16-enumerations.csproj", "{BEE21AD7-7078-46A4-8FB4-B1938CAE9FCB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "17-tuples", "17-tuples\17-tuples.csproj", "{523292D4-D5CD-4325-A0EB-F1021BBBB2C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -84,5 +86,9 @@ Global
 		{BEE21AD7-7078-46A4-8FB4-B1938CAE9FCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BEE21AD7-7078-46A4-8FB4-B1938CAE9FCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BEE21AD7-7078-46A4-8FB4-B1938CAE9FCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{523292D4-D5CD-4325-A0EB-F1021BBBB2C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{523292D4-D5CD-4325-A0EB-F1021BBBB2C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{523292D4-D5CD-4325-A0EB-F1021BBBB2C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{523292D4-D5CD-4325-A0EB-F1021BBBB2C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
