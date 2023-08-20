@@ -42,6 +42,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Level25Inheritance", "Level
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Level26Polymorphism", "Level26Polymorphism\Level26Polymorphism.csproj", "{D2D2ED52-1EE4-42B5-A7DF-2D3241A77B41}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Level27Interfaces", "Level27Interfaces\Level27Interfaces.csproj", "{37C288B7-F327-4905-83D0-3A939317AF65}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -132,5 +134,9 @@ Global
 		{D2D2ED52-1EE4-42B5-A7DF-2D3241A77B41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2D2ED52-1EE4-42B5-A7DF-2D3241A77B41}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2D2ED52-1EE4-42B5-A7DF-2D3241A77B41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37C288B7-F327-4905-83D0-3A939317AF65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37C288B7-F327-4905-83D0-3A939317AF65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37C288B7-F327-4905-83D0-3A939317AF65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37C288B7-F327-4905-83D0-3A939317AF65}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
