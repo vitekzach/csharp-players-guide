@@ -40,6 +40,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Level24TheCatacombsOfTheCla
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Level25Inheritance", "Level25Inheritance\Level25Inheritance.csproj", "{A22FBB82-39A8-40D7-96A2-5EE198116C30}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Level26Polymorphism", "Level26Polymorphism\Level26Polymorphism.csproj", "{D2D2ED52-1EE4-42B5-A7DF-2D3241A77B41}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -126,5 +128,9 @@ Global
 		{A22FBB82-39A8-40D7-96A2-5EE198116C30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A22FBB82-39A8-40D7-96A2-5EE198116C30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A22FBB82-39A8-40D7-96A2-5EE198116C30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2D2ED52-1EE4-42B5-A7DF-2D3241A77B41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2D2ED52-1EE4-42B5-A7DF-2D3241A77B41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2D2ED52-1EE4-42B5-A7DF-2D3241A77B41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2D2ED52-1EE4-42B5-A7DF-2D3241A77B41}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
