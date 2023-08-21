@@ -46,6 +46,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Level27Interfaces", "Level2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Level28Structs", "Level28Structs\Level28Structs.csproj", "{CE6B4F98-3A32-44C9-9498-0E67CB2BA505}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Level29Records", "Level29Records\Level29Records.csproj", "{94D87AE3-FEBA-4F6D-B14B-B327589A56C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -144,5 +146,9 @@ Global
 		{CE6B4F98-3A32-44C9-9498-0E67CB2BA505}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE6B4F98-3A32-44C9-9498-0E67CB2BA505}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE6B4F98-3A32-44C9-9498-0E67CB2BA505}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94D87AE3-FEBA-4F6D-B14B-B327589A56C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94D87AE3-FEBA-4F6D-B14B-B327589A56C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94D87AE3-FEBA-4F6D-B14B-B327589A56C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94D87AE3-FEBA-4F6D-B14B-B327589A56C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
