@@ -1,0 +1,4 @@
+namespace Level31TheFountainOfObjects.Managers;
+
+public class PitRoom: GridItem
+{ }
