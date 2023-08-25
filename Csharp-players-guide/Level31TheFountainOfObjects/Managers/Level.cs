@@ -19,6 +19,8 @@ public class Level
     private IInputInterface _inputProvider;
     private IOutputInterface _outputProvider;
     private bool LevelEnded {get; set; }
+    private DateTime LevelStartedTime { get; set; }
+    private DateTime LevelEndedTime { get; set; }
 
     public Level(IInputInterface inputProvider, IOutputInterface outputProvider)
     {
@@ -50,6 +52,7 @@ public class Level
         PlayerCoordinate = playerCoordinate;
         LevelDimensions = levelDimensions;
         Player = new Player();
+        LevelStartedTime = DateTime.UtcNow;
 
         LevelGrid = new GridItem[LevelDimensions.Rows, LevelDimensions.Columns];
         
@@ -207,16 +210,14 @@ public class Level
     {
         _outputProvider.Output("You have fell into a pit.", OutputType.Warning);
         _outputProvider.Output("You lose.", OutputType.Warning);
-        LevelState = LevelState.Lost;
-        LevelEnded = true;
+        EndGame(false);
     }
     
     private void DiedToAmarok()
     {
         _outputProvider.Output("You have died to an Amarok.", OutputType.Warning);
         _outputProvider.Output("You lose.", OutputType.Warning);
-        LevelState = LevelState.Lost;
-        LevelEnded = true;
+        EndGame(false);
     }
 
     private void HitMaelstrom()
@@ -403,12 +404,25 @@ public class Level
         _outputProvider.Output($"You are in the room at {PlayerCoordinate.ToString()}. You have {Player.ArrowCount} arrows.", OutputType.Descriptive);
     }
 
+    private void EndGame(bool gameWon)
+    {
+        LevelEnded = true;
+        LevelState = (gameWon) ? LevelState.Won: LevelState.Lost;
+
+        string gameOutcome = (gameWon) ? "win" : "lose";
+        
+        LevelEndedTime = DateTime.UtcNow;
+        TimeSpan gameLength = LevelEndedTime - LevelStartedTime;
+        _outputProvider.Output($"It took you {gameLength.Days} days, {gameLength.Hours} hours, " +
+                               $"{gameLength.Minutes} minutes, {gameLength.Seconds} seconds to {gameOutcome} the game.", 
+            OutputType.Descriptive);
+    }
+
     private void PrintWin()
     {
         _outputProvider.Output("The Fountain of Objects has been reactivated, and you have escaped with your life!", OutputType.Win);
         _outputProvider.Output("You win!", OutputType.Win);
-        LevelState = LevelState.Won;
-        LevelEnded = true;
+        EndGame(true);
     }
 
     private void PrintHelp()

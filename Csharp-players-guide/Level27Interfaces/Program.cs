@@ -16,9 +16,12 @@ IRobotCommand GetCommand(string command)
 }
 
 Robot robot = new Robot {X = 0, Y = 0, IsPowered = false};
-Console.WriteLine("Insert 3 commands: ");
-robot.Commands[0] = GetCommand(Console.ReadLine() ?? "");
-robot.Commands[1] = GetCommand(Console.ReadLine() ?? "");
-robot.Commands[2] = GetCommand(Console.ReadLine() ?? "");
+Console.WriteLine("Keep inserting commands: ");
+while (true)
+{
+    string command = Console.ReadLine() ?? "";
+    if (command == "stop") break;
+    robot.Commands.Add(GetCommand(command));
+}
 robot.Run();
 
