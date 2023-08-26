@@ -60,6 +60,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Level34MethodsRevisited", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Level35ErrorHandlingAndExceptions", "Level35ErrorHandlingAndExceptions\Level35ErrorHandlingAndExceptions.csproj", "{1FF63320-AE59-4390-9208-D6772C1CD18E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Level36Delegates", "Level36Delegates\Level36Delegates.csproj", "{BC9D7F17-2433-4469-88E5-C72EACB20A7D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -186,5 +188,9 @@ Global
 		{1FF63320-AE59-4390-9208-D6772C1CD18E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FF63320-AE59-4390-9208-D6772C1CD18E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FF63320-AE59-4390-9208-D6772C1CD18E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC9D7F17-2433-4469-88E5-C72EACB20A7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC9D7F17-2433-4469-88E5-C72EACB20A7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC9D7F17-2433-4469-88E5-C72EACB20A7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC9D7F17-2433-4469-88E5-C72EACB20A7D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
