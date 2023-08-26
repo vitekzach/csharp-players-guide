@@ -58,6 +58,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Level33ManagingLargerProgra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Level34MethodsRevisited", "Level34MethodsRevisited\Level34MethodsRevisited.csproj", "{B1CC2761-7276-4EDF-BDDF-36DA60D3A70F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Level35ErrorHandlingAndExceptions", "Level35ErrorHandlingAndExceptions\Level35ErrorHandlingAndExceptions.csproj", "{1FF63320-AE59-4390-9208-D6772C1CD18E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -180,5 +182,9 @@ Global
 		{B1CC2761-7276-4EDF-BDDF-36DA60D3A70F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1CC2761-7276-4EDF-BDDF-36DA60D3A70F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1CC2761-7276-4EDF-BDDF-36DA60D3A70F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FF63320-AE59-4390-9208-D6772C1CD18E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FF63320-AE59-4390-9208-D6772C1CD18E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FF63320-AE59-4390-9208-D6772C1CD18E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FF63320-AE59-4390-9208-D6772C1CD18E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
