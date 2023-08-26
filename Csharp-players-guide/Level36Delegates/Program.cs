@@ -8,9 +8,9 @@ Console.Write("Your choice: ");
 string choice = Console.ReadLine() ?? "";
 var sieve = (choice) switch
 {
-    "0" => new TheSieve(TheSieve.EvenFilter),
-    "1" => new TheSieve(TheSieve.PositiveFilter),
-    "2" => new TheSieve(TheSieve.TensFilter),
+    "0" => new TheSieve(x => x % 2 == 0),
+    "1" => new TheSieve(x => x > 0),
+    "2" => new TheSieve(x => x % 10 == 0),
 };
 while (true)
 {
