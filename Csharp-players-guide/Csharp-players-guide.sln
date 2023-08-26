@@ -64,6 +64,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Level36Delegates", "Level36
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Level37Events", "Level37Events\Level37Events.csproj", "{D69DF93E-A026-4513-BD7C-80296726D72C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Level39Files", "Level39Files\Level39Files.csproj", "{60E5384A-030E-4BE5-9425-B0EDACC059EB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -198,5 +200,9 @@ Global
 		{D69DF93E-A026-4513-BD7C-80296726D72C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D69DF93E-A026-4513-BD7C-80296726D72C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D69DF93E-A026-4513-BD7C-80296726D72C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60E5384A-030E-4BE5-9425-B0EDACC059EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60E5384A-030E-4BE5-9425-B0EDACC059EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60E5384A-030E-4BE5-9425-B0EDACC059EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60E5384A-030E-4BE5-9425-B0EDACC059EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
