@@ -66,6 +66,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Level37Events", "Level37Eve
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Level39Files", "Level39Files\Level39Files.csproj", "{60E5384A-030E-4BE5-9425-B0EDACC059EB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Level40PatternMatching", "Level40PatternMatching\Level40PatternMatching.csproj", "{48804799-CE53-483B-9C95-E33B0DFAD15D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -204,5 +206,9 @@ Global
 		{60E5384A-030E-4BE5-9425-B0EDACC059EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60E5384A-030E-4BE5-9425-B0EDACC059EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60E5384A-030E-4BE5-9425-B0EDACC059EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48804799-CE53-483B-9C95-E33B0DFAD15D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48804799-CE53-483B-9C95-E33B0DFAD15D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48804799-CE53-483B-9C95-E33B0DFAD15D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48804799-CE53-483B-9C95-E33B0DFAD15D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
