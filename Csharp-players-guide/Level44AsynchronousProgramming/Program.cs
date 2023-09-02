@@ -1,3 +1,5 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using Level44AsynchronousProgramming.Challenges;
 
-Console.WriteLine("Hello, World!");
+var gen = new RandomWordsGenerator();
+// await gen.RecreateWord();
+gen.RecreateManyWords();
