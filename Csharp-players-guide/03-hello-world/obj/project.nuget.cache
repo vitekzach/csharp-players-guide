@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "3UT3FqETCjnaRKjWup2Lo1KXtCpDtCRcYycY1D1cQOW7s/0eZiQVGgH/kgyTBtn7v9+yF4s2N862KuW5SZ0KBw==",
+  "dgSpecHash": "6blQjfmWFHK4P1CotYT1WAHJ+9oQzV0yF0EL7+EdDUnexb08mnj89B96fwChP00akSxxjWysu8tSalXyyFgnyA==",
   "success": true,
-  "projectFilePath": "/mnt/Data/Projects/C#/csharp-players-guide/Csharp-players-guide/03-hello-world/03-hello-world.csproj",
+  "projectFilePath": "/home/vitek/Documents/Code/Personal/c#/csharp-players-guide/Csharp-players-guide/03-hello-world/03-hello-world.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

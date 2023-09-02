@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/mnt/Data/Projects/C#/csharp-players-guide/Csharp-players-guide/03-hello-world/03-hello-world.csproj": {}
+    "/home/vitek/Documents/Code/Personal/c#/csharp-players-guide/Csharp-players-guide/03-hello-world/03-hello-world.csproj": {}
   },
   "projects": {
-    "/mnt/Data/Projects/C#/csharp-players-guide/Csharp-players-guide/03-hello-world/03-hello-world.csproj": {
+    "/home/vitek/Documents/Code/Personal/c#/csharp-players-guide/Csharp-players-guide/03-hello-world/03-hello-world.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/mnt/Data/Projects/C#/csharp-players-guide/Csharp-players-guide/03-hello-world/03-hello-world.csproj",
+        "projectUniqueName": "/home/vitek/Documents/Code/Personal/c#/csharp-players-guide/Csharp-players-guide/03-hello-world/03-hello-world.csproj",
         "projectName": "03-hello-world",
-        "projectPath": "/mnt/Data/Projects/C#/csharp-players-guide/Csharp-players-guide/03-hello-world/03-hello-world.csproj",
+        "projectPath": "/home/vitek/Documents/Code/Personal/c#/csharp-players-guide/Csharp-players-guide/03-hello-world/03-hello-world.csproj",
         "packagesPath": "/home/vitek/.nuget/packages/",
-        "outputPath": "/mnt/Data/Projects/C#/csharp-players-guide/Csharp-players-guide/03-hello-world/obj/",
+        "outputPath": "/home/vitek/Documents/Code/Personal/c#/csharp-players-guide/Csharp-players-guide/03-hello-world/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/vitek/.nuget/NuGet/NuGet.Config"

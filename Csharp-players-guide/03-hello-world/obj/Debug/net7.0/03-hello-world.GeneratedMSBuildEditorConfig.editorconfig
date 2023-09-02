@@ -8,4 +8,4 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = _03_hello_world
-build_property.ProjectDir = /mnt/Data/Projects/C#/csharp-players-guide/Csharp-players-guide/03-hello-world/
+build_property.ProjectDir = /home/vitek/Documents/Code/Personal/c#/csharp-players-guide/Csharp-players-guide/03-hello-world/
