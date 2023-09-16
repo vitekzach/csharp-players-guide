@@ -25,14 +25,22 @@ public static class ConsoleHelpers
         return GetValidInput<int>(prompt, CheckIntegerValid);
     }
 
-    public static int GetValidConsoleIntegerInputBasedOnListIndex<T>(string prompt, List<T> list, Action<List<T>> printChoices)
+    public static int GetValidConsoleIntegerInputBasedOnListIndex<T>(
+        string prompt,
+        List<T> list,
+        Action<List<T>> printChoices
+    )
     {
         while (true)
         {
             printChoices(list);
             int indexChoice = ConsoleHelpers.GetValidConsoleIntegerInput(prompt) - 1;
-            if (indexChoice >= 0 && indexChoice < list.Count) return indexChoice;
-            ConsoleHelpers.WriteLineWithColoredConsole(MessageType.Error, "You need to input a number form the list.");
+            if (indexChoice >= 0 && indexChoice < list.Count)
+                return indexChoice;
+            ConsoleHelpers.WriteLineWithColoredConsole(
+                MessageType.Error,
+                "You need to input a number form the list."
+            );
         }
     }
 
@@ -90,11 +98,13 @@ public static class ConsoleHelpers
             MessageType.Error => ConsoleColor.Red,
             MessageType.Team => ConsoleColor.DarkBlue,
             MessageType.Time => ConsoleColor.Blue,
+            MessageType.Attack => ConsoleColor.DarkRed,
             _ => throw new ArgumentOutOfRangeException(nameof(messageType))
         };
     }
 
-    public static void PrintChoicesFromList<T>(List<T> choices) {
+    public static void PrintChoicesFromList<T>(List<T> choices)
+    {
         for (int i = 0; i < choices.Count; i++)
         {
             ConsoleHelpers.WriteLineWithColoredConsole(
@@ -103,7 +113,6 @@ public static class ConsoleHelpers
             );
         }
     }
-
 
     // private static ConsoleTypeCheckOutput<T> CheckValidInput<T>(string? userInput, out T parsedValue)
     // {

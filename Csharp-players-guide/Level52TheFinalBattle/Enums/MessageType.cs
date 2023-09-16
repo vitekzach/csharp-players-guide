@@ -7,5 +7,6 @@ public enum MessageType
     Choice,
     Battle,
     Time,
-    Team
+    Team,
+    Attack
 }

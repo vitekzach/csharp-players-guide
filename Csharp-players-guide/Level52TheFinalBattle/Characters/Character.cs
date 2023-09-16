@@ -16,12 +16,22 @@ public class Character
 
     private Random RandomNumberGenerator { get; } = new Random();
 
-    public Character(string name, IChooseActionInterface actionChooser, Attack attack)
+    public int HpInitial { get; init; }
+    public int Hp { get; set; }
+
+    public Character(
+        string name,
+        IChooseActionInterface actionChooser,
+        Attack attack,
+        int hpInitial
+    )
     {
         Name = name;
         Moves = new List<CharacterMoves>() { CharacterMoves.Nothing, CharacterMoves.Attack };
         ActionChooser = actionChooser;
         Attack = attack;
+        HpInitial = hpInitial;
+        Hp = hpInitial;
     }
 
     public virtual void TakeTurn(Battle battle)
@@ -43,6 +53,8 @@ public class Character
                 MessageType.Normal,
                 $"{Name} used {Attack.Name} against {chosenEnemy.Name}."
             );
+            AttackAction attackAction = new AttackAction(Attack, chosenEnemy);
+            attackAction.Run();
         }
         else
             Console.WriteLine($"{Name} did {move}.");
@@ -63,6 +75,8 @@ public class Character
                 MessageType.Normal,
                 $"{Name} used {Attack.Name} against {chosenEnemy.Name}."
             );
+            AttackAction attackAction = new AttackAction(Attack, chosenEnemy);
+            attackAction.Run();
         }
         else
             Console.WriteLine($"{Name} did {move}.");

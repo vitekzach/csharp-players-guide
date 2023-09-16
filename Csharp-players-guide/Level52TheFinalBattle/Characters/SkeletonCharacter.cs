@@ -6,5 +6,5 @@ namespace Level52TheFinalBattle.Characters;
 public class SkeletonCharacter : AICharacter
 {
     public SkeletonCharacter()
-        : base("SKELETON", new AIAction(), new BoneCrunchhAttack()) { }
+        : base("SKELETON", new AIAction(), new BoneCrunchhAttack(), 5) { }
 }
