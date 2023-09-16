@@ -8,5 +8,7 @@ public enum MessageType
     Battle,
     Time,
     Team,
-    Attack
+    Attack,
+    Victory,
+    Loss
 }

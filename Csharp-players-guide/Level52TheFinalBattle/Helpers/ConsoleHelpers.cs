@@ -99,6 +99,9 @@ public static class ConsoleHelpers
             MessageType.Team => ConsoleColor.DarkBlue,
             MessageType.Time => ConsoleColor.Blue,
             MessageType.Attack => ConsoleColor.DarkRed,
+            MessageType.Victory => ConsoleColor.Green,
+            MessageType.Loss => ConsoleColor.Red,
+
             _ => throw new ArgumentOutOfRangeException(nameof(messageType))
         };
     }

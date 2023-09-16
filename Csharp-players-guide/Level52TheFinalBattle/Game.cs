@@ -6,24 +6,41 @@ namespace Level52TheFinalBattle;
 
 public class Game
 {
-   public Party HeroesParty { get; private set; }
-   public Party MonstersParty { get; private set; }
-   private List<Battle> Battles { get; set; }
+    private List<Battle> Battles { get; set; }
 
-   public Game()
-   {
-        HeroesParty = new Party(new List<Character>() { new TheTrueProgrammer() }, PartyType.Heroes);
-        MonstersParty = new Party(new List<Character>() { new SkeletonCharacter() }, PartyType.Monsters);
-        Battles = new List<Battle>();
-        Battles.Add(new Battle(HeroesParty, MonstersParty));
-   }
+    public Game()
+    {
+        Party heroesParty = new Party(
+            new List<Character>() { new TheTrueProgrammer() },
+            PartyType.Heroes
+        );
+        Party monstersParty1 = new Party(
+            new List<Character>() { new SkeletonCharacter() },
+            PartyType.Monsters
+        );
+        Party monstersParty2 = new Party(
+            new List<Character>() { new SkeletonCharacter(), new SkeletonCharacter() },
+            PartyType.Monsters
+        );
+        Party uncodedOnesParty = new Party(
+            new List<Character>() { new TheUncodedOne() },
+            PartyType.Monsters
+        );
 
-   public void Run()
-   {
-       foreach (Battle battle in Battles)
-       {
-           ConsoleHelpers.WriteLineWithColoredConsole(MessageType.Battle, "New battle starts!");
-           battle.RunBattle();
-       }
-   }
+        Battles = new List<Battle>()
+        {
+            new Battle(heroesParty, monstersParty1),
+            new Battle(heroesParty, monstersParty2),
+            new Battle(heroesParty, uncodedOnesParty)
+        };
+    }
+
+    public void Run()
+    {
+        foreach (Battle battle in Battles)
+        {
+            if (!battle.RunBattle())
+                break;
+        }
+    }
 }

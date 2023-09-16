@@ -19,16 +19,12 @@ public class Battle
             new List<Character>() { new SkeletonCharacter() },
             PartyType.Monsters
         );
-
-        SubscribeToDeaths();
     }
 
     public Battle(Party heroes, Party monsters)
     {
         HeroesParty = heroes;
         MonstersParty = monsters;
-
-        SubscribeToDeaths();
     }
 
     private void SubscribeToDeaths()
@@ -40,9 +36,24 @@ public class Battle
             character.CharacterDied += OnCharacterDied;
     }
 
-    public void RunBattle()
+    public void Cleanup()
+    {
+        foreach (Character character in HeroesParty.Members)
+            character.CharacterDied -= OnCharacterDied;
+
+        foreach (Character character in MonstersParty.Members)
+            character.CharacterDied -= OnCharacterDied;
+    }
+
+    public bool RunBattle()
     {
         bool gameEnded = false;
+        SubscribeToDeaths();
+
+        ConsoleHelpers.WriteLineWithColoredConsole(
+            MessageType.Battle,
+            "-----New battle commences!-----"
+        );
 
         while (!gameEnded)
         {
@@ -53,12 +64,11 @@ public class Battle
         {
             ConsoleHelpers.WriteLineWithColoredConsole(
                 MessageType.Victory,
-                $"{HeroesParty.Type} have won!"
+                $"{HeroesParty.Type} have won the battle!"
             );
-            ConsoleHelpers.WriteLineWithColoredConsole(
-                MessageType.Victory,
-                $"The Uncoded One was defeated."
-            );
+
+            Cleanup();
+            return true;
         }
         else
         {
@@ -70,28 +80,34 @@ public class Battle
                 MessageType.Loss,
                 $"The Uncoded One's forces have prevailed."
             );
+
+            Cleanup();
+            return false;
         }
     }
 
     public void OnCharacterDied(Character character)
     {
+        character.CharacterDied -= OnCharacterDied;
         Party characterParty = GetPartyFor(character);
         characterParty.Members.Remove(character);
         ConsoleHelpers.WriteLineWithColoredConsole(
             MessageType.Attack,
             $"{character.Name} has been defeated!"
         );
-        character.CharacterDied -= OnCharacterDied;
     }
 
     private bool RunRound()
     {
-        ConsoleHelpers.WriteLineWithColoredConsole(MessageType.Time, DateTime.UtcNow.ToString());
+        ConsoleHelpers.WriteLineWithColoredConsole(
+            MessageType.Time,
+            $"---------------- {DateTime.UtcNow.ToString()} ----------------"
+        );
         if (TakeTurnForParty(HeroesParty))
             return true;
         if (TakeTurnForParty(MonstersParty))
             return true;
-        Thread.Sleep(500);
+        // Thread.Sleep(500);
         return false;
     }
 
