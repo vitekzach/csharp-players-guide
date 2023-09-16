@@ -11,51 +11,141 @@ public class Battle
 
     public Battle()
     {
-        HeroesParty = new Party(new List<Character>() { new TheTrueProgrammer() }, PartyType.Heroes);
-        MonstersParty = new Party(new List<Character>() { new SkeletonCharacter() }, PartyType.Monsters);
+        HeroesParty = new Party(
+            new List<Character>() { new TheTrueProgrammer() },
+            PartyType.Heroes
+        );
+        MonstersParty = new Party(
+            new List<Character>() { new SkeletonCharacter() },
+            PartyType.Monsters
+        );
+
+        SubscribeToDeaths();
     }
 
     public Battle(Party heroes, Party monsters)
     {
         HeroesParty = heroes;
         MonstersParty = monsters;
+
+        SubscribeToDeaths();
+    }
+
+    private void SubscribeToDeaths()
+    {
+        foreach (Character character in HeroesParty.Members)
+            character.CharacterDied += OnCharacterDied;
+
+        foreach (Character character in MonstersParty.Members)
+            character.CharacterDied += OnCharacterDied;
     }
 
     public void RunBattle()
     {
-        while (true)
+        bool gameEnded = false;
+
+        while (!gameEnded)
         {
-            RunRound();
+            gameEnded = RunRound();
+        }
+
+        if (HeroesParty.Members.Count > 0)
+        {
+            ConsoleHelpers.WriteLineWithColoredConsole(
+                MessageType.Victory,
+                $"{HeroesParty.Type} have won!"
+            );
+            ConsoleHelpers.WriteLineWithColoredConsole(
+                MessageType.Victory,
+                $"The Uncoded One was defeated."
+            );
+        }
+        else
+        {
+            ConsoleHelpers.WriteLineWithColoredConsole(
+                MessageType.Loss,
+                $"{HeroesParty.Type} have lost!"
+            );
+            ConsoleHelpers.WriteLineWithColoredConsole(
+                MessageType.Loss,
+                $"The Uncoded One's forces have prevailed."
+            );
         }
     }
 
-
-    private void RunRound()
+    public void OnCharacterDied(Character character)
     {
-        ConsoleHelpers.WriteLineWithColoredConsole(MessageType.Time, DateTime.UtcNow.ToString());
-        TakeTurnForParty(HeroesParty);
-        TakeTurnForParty(MonstersParty);
-        Thread.Sleep(500);
+        Party characterParty = GetPartyFor(character);
+        characterParty.Members.Remove(character);
+        ConsoleHelpers.WriteLineWithColoredConsole(
+            MessageType.Attack,
+            $"{character.Name} has been defeated!"
+        );
+        character.CharacterDied -= OnCharacterDied;
     }
 
-    private void TakeTurnForParty(Party party)
+    private bool RunRound()
     {
-        ConsoleHelpers.WriteLineWithColoredConsole(MessageType.Team,$"TEAM TURN: It is {party.Type}' turn.");
+        ConsoleHelpers.WriteLineWithColoredConsole(MessageType.Time, DateTime.UtcNow.ToString());
+        if (TakeTurnForParty(HeroesParty))
+            return true;
+        if (TakeTurnForParty(MonstersParty))
+            return true;
+        Thread.Sleep(500);
+        return false;
+    }
+
+    private bool TakeTurnForParty(Party party)
+    {
+        ConsoleHelpers.WriteLineWithColoredConsole(
+            MessageType.Team,
+            $"TEAM TURN: It is {party.Type}' turn."
+        );
         foreach (Character character in party.Members)
         {
             Console.WriteLine($"It is {character.Name}'s turn...");
             character.TakeTurn(this);
             Console.WriteLine();
+            if (CheckForGameEnd(character))
+                return true;
         }
+        return false;
     }
 
-    public Party GetPartyFor(Character character) {
-        if (HeroesParty.Members.Contains(character)) return HeroesParty;
-        else return  MonstersParty;
+    private bool CheckForGameEnd(Character character)
+    {
+        Party enemyParty = GetEnemyPartyFor(character);
+        if (enemyParty.Members.Count == 0)
+        {
+            ConsoleHelpers.WriteLineWithColoredConsole(
+                MessageType.Attack,
+                $"{enemyParty.Type} have all died!"
+            );
+            return true;
+        }
+        return false;
     }
 
-    public Party GetEnemyPartyFor(Character character) {
-        if (!HeroesParty.Members.Contains(character)) return HeroesParty;
-        else return  MonstersParty;
+    public bool CharacterHero(Character character)
+    {
+        if (HeroesParty.Members.Contains(character))
+            return true;
+        return false;
+    }
+
+    public Party GetPartyFor(Character character)
+    {
+        if (CharacterHero(character))
+            return HeroesParty;
+        else
+            return MonstersParty;
+    }
+
+    public Party GetEnemyPartyFor(Character character)
+    {
+        if (CharacterHero(character))
+            return MonstersParty;
+        else
+            return HeroesParty;
     }
 }

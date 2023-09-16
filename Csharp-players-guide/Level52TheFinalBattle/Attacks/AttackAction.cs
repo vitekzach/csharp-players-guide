@@ -18,10 +18,13 @@ public class AttackAction
     public void Run()
     {
         int damage = Attack.DealDamage();
-        Target.Hp = Math.Clamp(Target.Hp - damage, 0, Target.HpInitial);
+        int characterNewHp = Math.Clamp(Target.Hp - damage, 0, Target.HpInitial);
+
         ConsoleHelpers.WriteLineWithColoredConsole(
             MessageType.Attack,
-            $"{Attack.Name} dealt {damage} damage to {Target.Name}. \n{Target.Name} is now at {Target.Hp}/{Target.HpInitial} HP."
+            $"{Attack.Name} dealt {damage} damage to {Target.Name}. \n{Target.Name} is now at {characterNewHp}/{Target.HpInitial} HP."
         );
+
+        Target.TakeDamage(damage);
     }
 }

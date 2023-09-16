@@ -8,6 +8,7 @@ namespace Level52TheFinalBattle.Characters;
 
 public class Character
 {
+    public event Action<Character>? CharacterDied;
     public string Name { get; init; }
     public List<CharacterMoves> Moves { get; init; }
     private IChooseActionInterface ActionChooser { get; init; }
@@ -80,6 +81,15 @@ public class Character
         }
         else
             Console.WriteLine($"{Name} did {move}.");
+    }
+
+    public void TakeDamage(int damage)
+    {
+        Hp = Math.Clamp(Hp - damage, 0, HpInitial);
+        if (Hp == 0)
+        {
+            CharacterDied?.Invoke(this);
+        }
     }
 
     private int PickRandomPartyMember(Party party)
