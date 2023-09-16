@@ -44,8 +44,18 @@ public class Battle
         foreach (Character character in party.Members)
         {
             Console.WriteLine($"It is {character.Name}'s turn...");
-            character.TakeTurn();
+            character.TakeTurn(this);
             Console.WriteLine();
         }
+    }
+
+    public Party GetPartyFor(Character character) {
+        if (HeroesParty.Members.Contains(character)) return HeroesParty;
+        else return  MonstersParty;
+    }
+
+    public Party GetEnemyPartyFor(Character character) {
+        if (!HeroesParty.Members.Contains(character)) return HeroesParty;
+        else return  MonstersParty;
     }
 }

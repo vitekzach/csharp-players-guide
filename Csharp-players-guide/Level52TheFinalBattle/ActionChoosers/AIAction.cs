@@ -4,10 +4,10 @@ using Level52TheFinalBattle.Helpers;
 
 namespace Level52TheFinalBattle.ActionChoosers;
 
-public class AIAction: IChooseActionInterface
+public class AIAction : IChooseActionInterface
 {
     public CharacterMoves ChooseAction(Character character)
     {
-        return CharacterMoves.Nothing;
+        return CharacterMoves.Attack;
     }
 }
