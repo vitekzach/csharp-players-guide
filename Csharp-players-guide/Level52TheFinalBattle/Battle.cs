@@ -9,6 +9,8 @@ public class Battle
     public Party HeroesParty { get; private set; }
     public Party MonstersParty { get; private set; }
 
+    private int InfoBoxWidth { get; } = 100;
+
     public Battle(Party heroes, Party monsters)
     {
         HeroesParty = heroes;
@@ -89,7 +91,7 @@ public class Battle
     {
         ConsoleHelpers.WriteLineWithColoredConsole(
             MessageType.Info,
-            $"---------------- {DateTime.UtcNow.ToString()} ----------------"
+            StringHelpers.CenterString($" {DateTime.UtcNow.ToString()} ", '═', InfoBoxWidth)
         );
         if (TakeTurnForParty(HeroesParty))
             return true;
@@ -101,9 +103,7 @@ public class Battle
 
     private void PrintCharacterTurnInfo(Character character)
     {
-        int infoBoxWidth = 100;
-
-        string topRow = StringHelpers.CenterString(" BATTLE ", '═', infoBoxWidth);
+        string topRow = StringHelpers.CenterString(" BATTLE ", '═', InfoBoxWidth);
         topRow = $"╔{topRow}╗";
 
         ConsoleHelpers.WriteLineWithColoredConsole(MessageType.Info, topRow);
@@ -112,9 +112,9 @@ public class Battle
             $"{HeroesParty.Type}",
             "(HP)",
             '─',
-            infoBoxWidth / 2
+            InfoBoxWidth / 2
         );
-        heroesHeader = StringHelpers.LeftJustify(heroesHeader, ' ', infoBoxWidth);
+        heroesHeader = StringHelpers.LeftJustify(heroesHeader, ' ', InfoBoxWidth);
         heroesHeader = $"║{heroesHeader}║";
         ConsoleHelpers.WriteLineWithColoredConsole(MessageType.Info, heroesHeader);
 
@@ -131,15 +131,15 @@ public class Battle
                 $"{partyCharacter.Name}",
                 $"({partyCharacter.Hp}/{partyCharacter.HpInitial})",
                 ' ',
-                infoBoxWidth / 2
+                InfoBoxWidth / 2
             );
-            heroRow = StringHelpers.LeftJustify(heroRow, ' ', infoBoxWidth);
+            heroRow = StringHelpers.LeftJustify(heroRow, ' ', InfoBoxWidth);
             heroRow = $"║{heroRow}║";
 
             ConsoleHelpers.WriteLineWithColoredConsole(messageType, heroRow);
         }
 
-        string middleRow = StringHelpers.CenterString(" VS ", '━', infoBoxWidth);
+        string middleRow = StringHelpers.CenterString(" VS ", '━', InfoBoxWidth);
         middleRow = $"╟{middleRow}╢";
 
         ConsoleHelpers.WriteLineWithColoredConsole(MessageType.Info, middleRow);
@@ -148,9 +148,9 @@ public class Battle
             $"{MonstersParty.Type}",
             "(HP)",
             '─',
-            infoBoxWidth / 2
+            InfoBoxWidth / 2
         );
-        monstersHeader = StringHelpers.RightJustify(monstersHeader, ' ', infoBoxWidth);
+        monstersHeader = StringHelpers.RightJustify(monstersHeader, ' ', InfoBoxWidth);
         monstersHeader = $"║{monstersHeader}║";
         ConsoleHelpers.WriteLineWithColoredConsole(MessageType.Info, monstersHeader);
 
@@ -167,15 +167,15 @@ public class Battle
                 $"{partyCharacter.Name}",
                 $"({partyCharacter.Hp}/{partyCharacter.HpInitial})",
                 ' ',
-                infoBoxWidth / 2
+                InfoBoxWidth / 2
             );
-            monsterRow = StringHelpers.RightJustify(monsterRow, ' ', infoBoxWidth);
+            monsterRow = StringHelpers.RightJustify(monsterRow, ' ', InfoBoxWidth);
             monsterRow = $"║{monsterRow}║";
 
             ConsoleHelpers.WriteLineWithColoredConsole(messageType, monsterRow);
         }
 
-        string bottomRow = StringHelpers.CenterString("", '═', infoBoxWidth);
+        string bottomRow = StringHelpers.CenterString("", '═', InfoBoxWidth);
         bottomRow = $"╚{bottomRow}╝";
 
         ConsoleHelpers.WriteLineWithColoredConsole(MessageType.Info, bottomRow);
@@ -196,7 +196,7 @@ public class Battle
             PrintCharacterTurnInfo(character);
 
             character.TakeTurn(this);
-            Console.WriteLine();
+            ConsoleHelpers.WriteLineWithColoredConsole(MessageType.Info, "");
             if (CheckForGameEnd(character))
                 return true;
         }

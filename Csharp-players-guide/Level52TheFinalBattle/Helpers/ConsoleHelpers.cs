@@ -15,9 +15,12 @@ public static class ConsoleHelpers
 
     public static void WriteLineWithColoredConsole(MessageType messageType, string text)
     {
-        Console.ForegroundColor = GetConsoleColorFromMessageType(messageType);
-        Console.WriteLine(text);
-        Console.ResetColor();
+        // Console.ForegroundColor = GetConsoleColorFromMessageType(messageType);
+        // Console.BackgroundColor = ConsoleColor.DarkGray;
+        // Console.WriteLine(text);
+        // Console.ResetColor();
+        WriteWithColoredConsole(messageType, text);
+        Console.WriteLine();
     }
 
     public static int GetValidConsoleIntegerInput(string prompt)

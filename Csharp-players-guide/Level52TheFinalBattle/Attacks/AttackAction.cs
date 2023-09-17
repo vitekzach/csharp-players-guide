@@ -22,7 +22,11 @@ public class AttackAction
 
         ConsoleHelpers.WriteLineWithColoredConsole(
             MessageType.Attack,
-            $"{Attack.Name} dealt {damage} damage to {Target.Name}. \n{Target.Name} is now at {characterNewHp}/{Target.HpInitial} HP."
+            $"{Attack.Name} dealt {damage} damage to {Target.Name}."
+        );
+        ConsoleHelpers.WriteLineWithColoredConsole(
+            MessageType.Attack,
+            $"{Target.Name} is now at {characterNewHp}/{Target.HpInitial} HP."
         );
 
         Target.TakeDamage(damage);
