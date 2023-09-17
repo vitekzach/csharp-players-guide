@@ -6,7 +6,7 @@ public enum MessageType
     Error,
     Choice,
     Battle,
-    Time,
+    Info,
     Team,
     Attack,
     Victory,

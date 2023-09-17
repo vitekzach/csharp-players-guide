@@ -97,7 +97,7 @@ public static class ConsoleHelpers
             MessageType.Choice => ConsoleColor.Yellow,
             MessageType.Error => ConsoleColor.Red,
             MessageType.Team => ConsoleColor.DarkBlue,
-            MessageType.Time => ConsoleColor.Blue,
+            MessageType.Info => ConsoleColor.Blue,
             MessageType.Attack => ConsoleColor.DarkRed,
             MessageType.Victory => ConsoleColor.Green,
             MessageType.Loss => ConsoleColor.Red,
