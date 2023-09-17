@@ -5,5 +5,7 @@ namespace Level52TheFinalBattle.ActionChoosers;
 
 public interface IChooseActionInterface
 {
-    public CharacterMoves ChooseAction(Character character);
+    public CharacterMove ChooseAction(Character character);
+
+    public Character ChooseEnemyTarget(Character character, Battle battle);
 }

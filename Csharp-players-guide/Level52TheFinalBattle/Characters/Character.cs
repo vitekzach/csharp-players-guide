@@ -10,12 +10,10 @@ public class Character
 {
     public event Action<Character>? CharacterDied;
     public string Name { get; init; }
-    public List<CharacterMoves> Moves { get; init; }
+    public List<CharacterMove> Moves { get; init; }
     private IChooseActionInterface ActionChooser { get; init; }
 
     public Attack Attack { get; init; }
-
-    private Random RandomNumberGenerator { get; } = new Random();
 
     public int HpInitial { get; init; }
     public int Hp { get; set; }
@@ -28,7 +26,7 @@ public class Character
     )
     {
         Name = name;
-        Moves = new List<CharacterMoves>() { CharacterMoves.Nothing, CharacterMoves.Attack };
+        Moves = new List<CharacterMove>() { CharacterMove.Nothing, CharacterMove.Attack };
         ActionChooser = actionChooser;
         Attack = attack;
         HpInitial = hpInitial;
@@ -37,40 +35,10 @@ public class Character
 
     public virtual void TakeTurn(Battle battle)
     {
-        CharacterMoves move = ActionChooser.ChooseAction(this);
-        if (move == CharacterMoves.Attack)
+        CharacterMove move = ActionChooser.ChooseAction(this);
+        if (move == CharacterMove.Attack)
         {
-            Party enemyParty = battle.GetEnemyPartyFor(this);
-            int enemyIndexChoice =
-                ConsoleHelpers.GetValidConsoleIntegerInputBasedOnListIndex<Character>(
-                    "Enemy chosen: ",
-                    enemyParty.Members,
-                    ConsoleHelpers.PrintChoicesFromList<Character>
-                );
-
-            Character chosenEnemy = enemyParty.Members[enemyIndexChoice];
-
-            ConsoleHelpers.WriteLineWithColoredConsole(
-                MessageType.Normal,
-                $"{Name} used {Attack.Name} against {chosenEnemy.Name}."
-            );
-            AttackAction attackAction = new AttackAction(Attack, chosenEnemy);
-            attackAction.Run();
-        }
-        else
-            Console.WriteLine($"{Name} did {move}.");
-    }
-
-    protected void AiTakeTurn(Battle battle)
-    {
-        CharacterMoves move = ActionChooser.ChooseAction(this);
-        if (move == CharacterMoves.Attack)
-        {
-            Party enemyParty = battle.GetEnemyPartyFor(this);
-
-            int enemyIndexChoice = PickRandomPartyMember(enemyParty);
-
-            Character chosenEnemy = enemyParty.Members[enemyIndexChoice];
+            Character chosenEnemy = ActionChooser.ChooseEnemyTarget(this, battle);
 
             ConsoleHelpers.WriteLineWithColoredConsole(
                 MessageType.Normal,
@@ -90,11 +58,6 @@ public class Character
         {
             CharacterDied?.Invoke(this);
         }
-    }
-
-    private int PickRandomPartyMember(Party party)
-    {
-        return RandomNumberGenerator.Next(party.Members.Count);
     }
 
     public override string ToString()

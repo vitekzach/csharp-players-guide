@@ -1,6 +1,6 @@
 namespace Level52TheFinalBattle.Enums;
 
-public enum CharacterMoves
+public enum CharacterMove
 {
     Nothing,
     Attack

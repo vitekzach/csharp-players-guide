@@ -6,11 +6,8 @@ namespace Level52TheFinalBattle.Characters;
 
 public class TheTrueProgrammer : Character
 {
-    public TheTrueProgrammer(string name)
-        : base(name, new ConsoleAction(), new PunchAttack(), 25) { }
-
-    public TheTrueProgrammer()
-        : this(GetCharacterName("The True Programmer")) { }
+    public TheTrueProgrammer(IChooseActionInterface actionChooser)
+        : base(GetCharacterName("The True Programmer"), actionChooser, new PunchAttack(), 25) { }
 
     private static string GetCharacterName(string characterType)
     {

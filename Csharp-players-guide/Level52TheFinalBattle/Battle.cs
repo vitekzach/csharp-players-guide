@@ -9,18 +9,6 @@ public class Battle
     public Party HeroesParty { get; private set; }
     public Party MonstersParty { get; private set; }
 
-    public Battle()
-    {
-        HeroesParty = new Party(
-            new List<Character>() { new TheTrueProgrammer() },
-            PartyType.Heroes
-        );
-        MonstersParty = new Party(
-            new List<Character>() { new SkeletonCharacter() },
-            PartyType.Monsters
-        );
-    }
-
     public Battle(Party heroes, Party monsters)
     {
         HeroesParty = heroes;
@@ -67,7 +55,7 @@ public class Battle
                 $"{HeroesParty.Type} have won the battle!"
             );
 
-            Cleanup();
+            // Cleanup();
             return true;
         }
         else
@@ -81,7 +69,7 @@ public class Battle
                 $"The Uncoded One's forces have prevailed."
             );
 
-            Cleanup();
+            // Cleanup();
             return false;
         }
     }

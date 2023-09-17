@@ -6,8 +6,24 @@ namespace Level52TheFinalBattle.ActionChoosers;
 
 public class AIAction : IChooseActionInterface
 {
-    public CharacterMoves ChooseAction(Character character)
+    private Random RandomNumberGenerator { get; } = new Random();
+
+    public CharacterMove ChooseAction(Character character)
     {
-        return CharacterMoves.Attack;
+        return CharacterMove.Attack;
+    }
+
+    public Character ChooseEnemyTarget(Character character, Battle battle)
+    {
+        Party enemyParty = battle.GetEnemyPartyFor(character);
+
+        int enemyIndexChoice = PickRandomPartyMember(enemyParty);
+
+        return enemyParty.Members[enemyIndexChoice];
+    }
+
+    private int PickRandomPartyMember(Party party)
+    {
+        return RandomNumberGenerator.Next(party.Members.Count);
     }
 }
