@@ -55,7 +55,7 @@ public class Battle
                 $"{HeroesParty.Type} have won the battle!"
             );
 
-            // Cleanup();
+            Cleanup();
             return true;
         }
         else
@@ -69,7 +69,7 @@ public class Battle
                 $"The Uncoded One's forces have prevailed."
             );
 
-            // Cleanup();
+            Cleanup();
             return false;
         }
     }
