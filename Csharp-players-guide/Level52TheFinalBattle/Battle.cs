@@ -1,6 +1,7 @@
 using Level52TheFinalBattle.Characters;
 using Level52TheFinalBattle.Enums;
 using Level52TheFinalBattle.Helpers;
+using Level52TheFinalBattle.Items;
 
 namespace Level52TheFinalBattle;
 
@@ -103,19 +104,18 @@ public class Battle
 
     private void PrintCharacterTurnInfo(Character character)
     {
-        string topRow = StringHelpers.CenterString(" BATTLE ", '═', InfoBoxWidth);
-        topRow = $"╔{topRow}╗";
+        ConsoleHelpers.WriteLineWithColoredConsole(
+            MessageType.Info,
+            StringHelpers.GetTableHeader(" Battle ", InfoBoxWidth)
+        );
 
-        ConsoleHelpers.WriteLineWithColoredConsole(MessageType.Info, topRow);
-
-        string heroesHeader = StringHelpers.LeftAndRightJustify(
+        string heroesHeader = StringHelpers.GetTableRow(
             $"{HeroesParty.Type}",
             "(HP)",
-            '─',
-            InfoBoxWidth / 2
+            TableStringHalfAlignment.Left,
+            InfoBoxWidth,
+            true
         );
-        heroesHeader = StringHelpers.LeftJustify(heroesHeader, ' ', InfoBoxWidth);
-        heroesHeader = $"║{heroesHeader}║";
         ConsoleHelpers.WriteLineWithColoredConsole(MessageType.Info, heroesHeader);
 
         foreach (Character partyCharacter in HeroesParty.Members)
@@ -127,32 +127,48 @@ public class Battle
             else
                 messageType = MessageType.Info;
 
-            string heroRow = StringHelpers.LeftAndRightJustify(
-                $"{partyCharacter.Name}",
+            string heroRow = StringHelpers.GetTableRow(
+                $"  {partyCharacter.Name}",
                 $"({partyCharacter.Hp}/{partyCharacter.HpInitial})",
-                ' ',
-                InfoBoxWidth / 2
+                TableStringHalfAlignment.Left,
+                InfoBoxWidth,
+                false
             );
-            heroRow = StringHelpers.LeftJustify(heroRow, ' ', InfoBoxWidth);
-            heroRow = $"║{heroRow}║";
-
             ConsoleHelpers.WriteLineWithColoredConsole(messageType, heroRow);
         }
 
-        string middleRow = StringHelpers.CenterString(" VS ", '━', InfoBoxWidth);
-        middleRow = $"╟{middleRow}╢";
+        string inventoryHeader = StringHelpers.GetTableRow(
+            "Heroes inventory",
+            "",
+            TableStringHalfAlignment.Left,
+            InfoBoxWidth,
+            true
+        );
+        ConsoleHelpers.WriteLineWithColoredConsole(MessageType.Info, inventoryHeader);
 
+        foreach (ConsumableItem inventoryItem in HeroesParty.Inventory)
+        {
+            string inventoryRow = StringHelpers.GetTableRow(
+                $"  {inventoryItem}",
+                $"",
+                TableStringHalfAlignment.Left,
+                InfoBoxWidth,
+                false
+            );
+            ConsoleHelpers.WriteLineWithColoredConsole(MessageType.Info, inventoryRow);
+        }
+
+        string middleRow = StringHelpers.GetTableDivider(" VS ", InfoBoxWidth);
         ConsoleHelpers.WriteLineWithColoredConsole(MessageType.Info, middleRow);
 
-        string monstersHeader = StringHelpers.LeftAndRightJustify(
+        string monsterHeader = StringHelpers.GetTableRow(
             $"{MonstersParty.Type}",
             "(HP)",
-            '─',
-            InfoBoxWidth / 2
+            TableStringHalfAlignment.Right,
+            InfoBoxWidth,
+            true
         );
-        monstersHeader = StringHelpers.RightJustify(monstersHeader, ' ', InfoBoxWidth);
-        monstersHeader = $"║{monstersHeader}║";
-        ConsoleHelpers.WriteLineWithColoredConsole(MessageType.Info, monstersHeader);
+        ConsoleHelpers.WriteLineWithColoredConsole(MessageType.Info, monsterHeader);
 
         foreach (Character partyCharacter in MonstersParty.Members)
         {
@@ -163,22 +179,41 @@ public class Battle
             else
                 messageType = MessageType.Info;
 
-            string monsterRow = StringHelpers.LeftAndRightJustify(
-                $"{partyCharacter.Name}",
+            string monsterRow = StringHelpers.GetTableRow(
+                $"  {partyCharacter.Name}",
                 $"({partyCharacter.Hp}/{partyCharacter.HpInitial})",
-                ' ',
-                InfoBoxWidth / 2
+                TableStringHalfAlignment.Right,
+                InfoBoxWidth,
+                false
             );
-            monsterRow = StringHelpers.RightJustify(monsterRow, ' ', InfoBoxWidth);
-            monsterRow = $"║{monsterRow}║";
-
             ConsoleHelpers.WriteLineWithColoredConsole(messageType, monsterRow);
         }
 
-        string bottomRow = StringHelpers.CenterString("", '═', InfoBoxWidth);
-        bottomRow = $"╚{bottomRow}╝";
+        inventoryHeader = StringHelpers.GetTableRow(
+            "Monster inventory",
+            "",
+            TableStringHalfAlignment.Right,
+            InfoBoxWidth,
+            true
+        );
+        ConsoleHelpers.WriteLineWithColoredConsole(MessageType.Info, inventoryHeader);
 
-        ConsoleHelpers.WriteLineWithColoredConsole(MessageType.Info, bottomRow);
+        foreach (ConsumableItem inventoryItem in MonstersParty.Inventory)
+        {
+            string inventoryRow = StringHelpers.GetTableRow(
+                $"  {inventoryItem}",
+                $"",
+                TableStringHalfAlignment.Right,
+                InfoBoxWidth,
+                false
+            );
+            ConsoleHelpers.WriteLineWithColoredConsole(MessageType.Info, inventoryRow);
+        }
+
+        ConsoleHelpers.WriteLineWithColoredConsole(
+            MessageType.Info,
+            StringHelpers.GetTableBottom(InfoBoxWidth)
+        );
     }
 
     private bool TakeTurnForParty(Party party)

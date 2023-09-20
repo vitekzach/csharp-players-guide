@@ -1,3 +1,4 @@
+using System.Xml.Schema;
 using Level52TheFinalBattle.Characters;
 using Level52TheFinalBattle.Enums;
 using Level52TheFinalBattle.Records;
@@ -37,10 +38,10 @@ public static class ConsoleHelpers
         while (true)
         {
             printChoices(list);
-            int indexChoice = ConsoleHelpers.GetValidConsoleIntegerInput(prompt) - 1;
+            int indexChoice = GetValidConsoleIntegerInput(prompt) - 1;
             if (indexChoice >= 0 && indexChoice < list.Count)
                 return indexChoice;
-            ConsoleHelpers.WriteLineWithColoredConsole(
+            WriteLineWithColoredConsole(
                 MessageType.Error,
                 "You need to input a number form the list."
             );
@@ -96,6 +97,7 @@ public static class ConsoleHelpers
         return messageType switch
         {
             MessageType.Normal => ConsoleColor.White,
+            MessageType.Item => ConsoleColor.Gray,
             MessageType.Battle => ConsoleColor.Green,
             MessageType.Choice => ConsoleColor.Yellow,
             MessageType.Error => ConsoleColor.Red,

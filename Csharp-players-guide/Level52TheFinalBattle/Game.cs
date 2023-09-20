@@ -1,4 +1,5 @@
 using Level52TheFinalBattle.ActionChoosers;
+using Level52TheFinalBattle.Items;
 using Level52TheFinalBattle.Characters;
 using Level52TheFinalBattle.Enums;
 using Level52TheFinalBattle.Helpers;
@@ -34,11 +35,18 @@ public class Game
 
         Party heroesParty = new Party(
             new List<Character>() { new TheTrueProgrammer(heroActionChooser) },
-            PartyType.Heroes
+            PartyType.Heroes,
+            new List<ConsumableItem>()
+            {
+                new HealthPotionItem(),
+                new HealthPotionItem(),
+                new HealthPotionItem()
+            }
         );
         Party monstersParty1 = new Party(
             new List<Character>() { new SkeletonCharacter(monsterActionChooser) },
-            PartyType.Monsters
+            PartyType.Monsters,
+            new List<ConsumableItem>() { new HealthPotionItem() }
         );
         Party monstersParty2 = new Party(
             new List<Character>()
@@ -46,11 +54,13 @@ public class Game
                 new SkeletonCharacter(monsterActionChooser),
                 new SkeletonCharacter(monsterActionChooser)
             },
-            PartyType.Monsters
+            PartyType.Monsters,
+            new List<ConsumableItem>() { new HealthPotionItem() }
         );
         Party uncodedOnesParty = new Party(
             new List<Character>() { new TheUncodedOne(monsterActionChooser) },
-            PartyType.Monsters
+            PartyType.Monsters,
+            new List<ConsumableItem>() { new HealthPotionItem() }
         );
 
         Battles = new List<Battle>()

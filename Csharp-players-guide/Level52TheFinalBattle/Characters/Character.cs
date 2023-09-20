@@ -1,3 +1,4 @@
+using Level52TheFinalBattle.Items;
 using Level52TheFinalBattle.Enums;
 using Level52TheFinalBattle.ActionChoosers;
 using Level52TheFinalBattle.Attacks;
@@ -35,6 +36,16 @@ public class Character
 
     public virtual void TakeTurn(Battle battle)
     {
+        Party characterParty = battle.GetPartyFor(this);
+
+        int inventoryChoice = ActionChooser.ChooseInventoryItem(this, battle);
+        if (inventoryChoice >= 0)
+        {
+            ConsumableItem item = characterParty.Inventory[inventoryChoice];
+            characterParty.Inventory.RemoveAt(inventoryChoice);
+            ConsumeItem(item);
+        }
+
         CharacterMove move = ActionChooser.ChooseAction(this);
         if (move == CharacterMove.Attack)
         {
@@ -60,8 +71,29 @@ public class Character
         }
     }
 
+    public void DoNothing() { }
+
+    public void TakeHealing(int healing)
+    {
+        Hp = Math.Clamp(Hp + healing, 0, HpInitial);
+    }
+
     public override string ToString()
     {
         return Name;
+    }
+
+    public void ConsumeItem(ConsumableItem item)
+    {
+        switch (item)
+        {
+            case HealthPotionItem h:
+                TakeHealing(h.HealingPower);
+                ConsoleHelpers.WriteLineWithColoredConsole(
+                    MessageType.Item,
+                    $"{Name} consumed {item}."
+                );
+                break;
+        }
     }
 }

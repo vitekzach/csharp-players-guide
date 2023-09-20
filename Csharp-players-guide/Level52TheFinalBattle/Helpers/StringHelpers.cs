@@ -1,3 +1,5 @@
+using Level52TheFinalBattle.Enums;
+
 namespace Level52TheFinalBattle.Helpers;
 
 public static class StringHelpers
@@ -56,5 +58,58 @@ public static class StringHelpers
 
         string padding = new String(paddingChar, desiredLength - stringLength);
         return $"{stringToJustify}{padding}";
+    }
+
+    public static string GetTableHeader(string headerText, int desiredWidth)
+    {
+        return $"╔{CenterString(headerText, '═', desiredWidth - 2)}╗";
+    }
+
+    public static string GetTableDivider(string headerText, int desiredWidth)
+    {
+        return $"╟{CenterString(headerText, '━', desiredWidth - 2)}╢";
+    }
+
+    public static string GetTableBottom(int desiredWidth)
+    {
+        return $"╚{CenterString("", '═', desiredWidth - 2)}╝";
+    }
+
+    public static string GetTableRow(
+        string leftText,
+        string rightText,
+        TableStringHalfAlignment alignment,
+        int desiredWidth,
+        bool tableRowHeader = false
+    )
+    {
+        string tableRow = "";
+        char paddingChar = tableRowHeader ? '─' : ' ';
+
+        switch (alignment)
+        {
+            case TableStringHalfAlignment.Left:
+                tableRow = LeftAndRightJustify(
+                    leftText,
+                    rightText,
+                    paddingChar,
+                    (desiredWidth - 2) / 2
+                );
+                tableRow = LeftJustify(tableRow, ' ', desiredWidth - 2);
+                break;
+            case TableStringHalfAlignment.Right:
+                tableRow = LeftAndRightJustify(
+                    leftText,
+                    rightText,
+                    paddingChar,
+                    (desiredWidth - 2) / 2
+                );
+                tableRow = RightJustify(tableRow, ' ', desiredWidth - 2);
+                break;
+            case TableStringHalfAlignment.None:
+                tableRow = LeftAndRightJustify(leftText, rightText, paddingChar, desiredWidth - 2);
+                break;
+        }
+        return $"║{tableRow}║";
     }
 }

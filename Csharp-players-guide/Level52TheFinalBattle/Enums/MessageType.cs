@@ -10,5 +10,6 @@ public enum MessageType
     Team,
     Attack,
     Victory,
-    Loss
+    Loss,
+    Item
 }

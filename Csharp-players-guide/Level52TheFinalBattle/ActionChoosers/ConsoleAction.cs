@@ -1,4 +1,5 @@
 using Level52TheFinalBattle.Characters;
+using Level52TheFinalBattle.Items;
 using Level52TheFinalBattle.Helpers;
 using Level52TheFinalBattle.Enums;
 
@@ -45,5 +46,39 @@ public class ConsoleAction : IChooseActionInterface
             );
 
         return enemyParty.Members[enemyIndexChoice];
+    }
+
+    public int ChooseInventoryItem(Character character, Battle battle)
+    {
+        Party characterParty = battle.GetPartyFor(character);
+
+        if (characterParty.Inventory.Count == 0)
+            return -1;
+
+        List<ConsumableItem> inventoryWithNothing = new List<ConsumableItem>
+        {
+            new ConsumableItem("Do not use any item")
+        };
+
+        inventoryWithNothing.AddRange(characterParty.Inventory);
+
+        int choice =
+            ConsoleHelpers.GetValidConsoleIntegerInputBasedOnListIndex<ConsumableItem>(
+                "Item chosen: ",
+                inventoryWithNothing,
+                PrintInventoryChoices
+            ) - 1;
+
+        return choice;
+    }
+
+    private void PrintInventoryChoices(List<ConsumableItem> items)
+    {
+        ConsoleHelpers.WriteLineWithColoredConsole(MessageType.Choice, "Use item?");
+        for (int i = 0; i < items.Count; i++)
+            ConsoleHelpers.WriteLineWithColoredConsole(
+                MessageType.Choice,
+                $" ({i + 1}) {items[i]}"
+            );
     }
 }

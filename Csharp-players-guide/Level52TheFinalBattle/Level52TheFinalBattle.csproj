@@ -9,6 +9,8 @@
 
     <ItemGroup>
       <Folder Include="Attacks/" />
+      <Folder Include="Interfaces/" />
+      <Folder Include="Items/" />
     </ItemGroup>
 
 
