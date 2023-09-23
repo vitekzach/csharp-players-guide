@@ -12,9 +12,9 @@ public class Party
 {
     public List<Character> Members { get; private set; }
     public PartyType Type { get; init; }
-    public List<ConsumableItem> Inventory { get; private set; }
+    public List<InventoryItem> Inventory { get; private set; }
 
-    public Party(List<Character> members, PartyType type, List<ConsumableItem> inventory)
+    public Party(List<Character> members, PartyType type, List<InventoryItem> inventory)
     {
         Members = members;
         Type = type;

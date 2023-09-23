@@ -1,6 +1,6 @@
 namespace Level52TheFinalBattle.Items;
 
-public class HealthPotionItem : ConsumableItem
+public class HealthPotionItem : InventoryItem
 {
     public int HealingPower { get; init; }
 
@@ -12,6 +12,6 @@ public class HealthPotionItem : ConsumableItem
 
     public override string ToString()
     {
-        return $"{Name} ({HealingPower})";
+        return $"{Name} (heals {HealingPower} HP)";
     }
 }

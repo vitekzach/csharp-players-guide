@@ -1,3 +1,4 @@
+using System.Security;
 using Level52TheFinalBattle.Characters;
 using Level52TheFinalBattle.Enums;
 using Level52TheFinalBattle.Helpers;
@@ -11,6 +12,10 @@ public class AIAction : IChooseActionInterface
 
     public CharacterMove ChooseAction(Character character)
     {
+        if (character.EquippedGear != null)
+        {
+            return CharacterMove.GearAttack;
+        }
         return CharacterMove.Attack;
     }
 
@@ -31,11 +36,12 @@ public class AIAction : IChooseActionInterface
     public int ChooseInventoryItem(Character character, Battle battle)
     {
         Party characterParty = battle.GetPartyFor(character);
-        List<ConsumableItem> inventory = characterParty.Inventory;
+        var partyInventory = characterParty.Inventory;
 
-        if (characterParty.Inventory.Count == 0)
+        if (partyInventory.Count == 0)
             return -1;
 
+        // choosing potions has priority over gear
         if (character.Hp < (float)character.HpInitial / 2)
         {
             int value = RandomNumberGenerator.Next(100);
@@ -43,6 +49,18 @@ public class AIAction : IChooseActionInterface
                 return 0;
         }
 
+        List<GearItem> equippableGear = partyInventory.OfType<GearItem>().ToList<GearItem>();
+        if (equippableGear.Count > 0 && character.EquippedGear == null)
+        {
+            Console.WriteLine("Console player sees gear");
+            if (RandomNumberGenerator.Next(2) == 1)
+            {
+                Console.WriteLine("Equipping something...");
+                int indexOfGear = RandomNumberGenerator.Next(equippableGear.Count);
+                var gearToEquip = equippableGear[indexOfGear];
+                return partyInventory.IndexOf(gearToEquip);
+            }
+        }
         return -1;
     }
 }

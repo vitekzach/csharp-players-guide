@@ -1,9 +1,11 @@
-using Level52TheFinalBattle.Items;
-using Level52TheFinalBattle.Enums;
+using System.Diagnostics.Tracing;
+using System.Security.AccessControl;
+using System.Security.Cryptography;
 using Level52TheFinalBattle.ActionChoosers;
 using Level52TheFinalBattle.Attacks;
+using Level52TheFinalBattle.Enums;
 using Level52TheFinalBattle.Helpers;
-using System.Security.Cryptography;
+using Level52TheFinalBattle.Items;
 
 namespace Level52TheFinalBattle.Characters;
 
@@ -11,10 +13,12 @@ public class Character
 {
     public event Action<Character>? CharacterDied;
     public string Name { get; init; }
-    public List<CharacterMove> Moves { get; init; }
+    public List<CharacterMove> Moves { get; private set; }
     private IChooseActionInterface ActionChooser { get; init; }
 
     public Attack Attack { get; init; }
+
+    public GearItem? EquippedGear { get; protected set; }
 
     public int HpInitial { get; init; }
     public int Hp { get; set; }
@@ -23,7 +27,8 @@ public class Character
         string name,
         IChooseActionInterface actionChooser,
         Attack attack,
-        int hpInitial
+        int hpInitial,
+        GearItem? startingGearItem
     )
     {
         Name = name;
@@ -32,30 +37,55 @@ public class Character
         Attack = attack;
         HpInitial = hpInitial;
         Hp = hpInitial;
+        EquippedGear = startingGearItem;
+        if (startingGearItem != null)
+            Moves.Add(CharacterMove.GearAttack);
     }
 
     public virtual void TakeTurn(Battle battle)
     {
+        if (EquippedGear?.RoundsToActivate == 1)
+        {
+            Moves.Add(CharacterMove.GearAttack);
+            EquippedGear.RoundsToActivate = -1;
+        }
+
+        if (EquippedGear?.RoundsToActivate > 1)
+            EquippedGear.RoundsToActivate--;
+
         Party characterParty = battle.GetPartyFor(this);
 
         int inventoryChoice = ActionChooser.ChooseInventoryItem(this, battle);
         if (inventoryChoice >= 0)
         {
-            ConsumableItem item = characterParty.Inventory[inventoryChoice];
+            InventoryItem item = characterParty.Inventory[inventoryChoice];
             characterParty.Inventory.RemoveAt(inventoryChoice);
-            ConsumeItem(item);
+            UseItem(item, characterParty);
         }
 
         CharacterMove move = ActionChooser.ChooseAction(this);
-        if (move == CharacterMove.Attack)
+        if (move == CharacterMove.Attack || move == CharacterMove.GearAttack)
         {
+            Attack attack;
+            if (move == CharacterMove.Attack)
+            {
+                attack = Attack;
+            }
+            else if (move == CharacterMove.GearAttack)
+            {
+                attack = EquippedGear!.GearAttack;
+            }
+            else
+            {
+                throw new NotImplementedException("What is this move?");
+            }
             Character chosenEnemy = ActionChooser.ChooseEnemyTarget(this, battle);
 
             ConsoleHelpers.WriteLineWithColoredConsole(
                 MessageType.Normal,
-                $"{Name} used {Attack.Name} against {chosenEnemy.Name}."
+                $"{Name} used {attack.Name} against {chosenEnemy.Name}."
             );
-            AttackAction attackAction = new AttackAction(Attack, chosenEnemy);
+            AttackAction attackAction = new AttackAction(attack, chosenEnemy);
             attackAction.Run();
         }
         else
@@ -80,10 +110,13 @@ public class Character
 
     public override string ToString()
     {
-        return Name;
+        string suffix = "";
+        if (EquippedGear != null)
+            suffix += $" (with {EquippedGear.Name})";
+        return $"{Name}{suffix}";
     }
 
-    public void ConsumeItem(ConsumableItem item)
+    public void UseItem(InventoryItem item, Party party)
     {
         switch (item)
         {
@@ -93,6 +126,22 @@ public class Character
                     MessageType.Item,
                     $"{Name} consumed {item}."
                 );
+                break;
+            case GearItem g:
+                if (EquippedGear != null)
+                {
+                    ConsoleHelpers.WriteLineWithColoredConsole(
+                        MessageType.Item,
+                        $"Putting {EquippedGear.Name} back to team inventory."
+                    );
+                    party.Inventory.Add(EquippedGear);
+                    EquippedGear = null;
+                }
+                ConsoleHelpers.WriteLineWithColoredConsole(
+                    MessageType.Item,
+                    $"{Name} equipped {g.Name}."
+                );
+                EquippedGear = g;
                 break;
         }
     }

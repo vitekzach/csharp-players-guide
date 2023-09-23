@@ -55,15 +55,15 @@ public class ConsoleAction : IChooseActionInterface
         if (characterParty.Inventory.Count == 0)
             return -1;
 
-        List<ConsumableItem> inventoryWithNothing = new List<ConsumableItem>
+        List<InventoryItem> inventoryWithNothing = new List<InventoryItem>()
         {
-            new ConsumableItem("Do not use any item")
+            new InventoryItem("Do not use any item")
         };
 
         inventoryWithNothing.AddRange(characterParty.Inventory);
 
         int choice =
-            ConsoleHelpers.GetValidConsoleIntegerInputBasedOnListIndex<ConsumableItem>(
+            ConsoleHelpers.GetValidConsoleIntegerInputBasedOnListIndex<InventoryItem>(
                 "Item chosen: ",
                 inventoryWithNothing,
                 PrintInventoryChoices
@@ -72,7 +72,7 @@ public class ConsoleAction : IChooseActionInterface
         return choice;
     }
 
-    private void PrintInventoryChoices(List<ConsumableItem> items)
+    private void PrintInventoryChoices(List<InventoryItem> items)
     {
         ConsoleHelpers.WriteLineWithColoredConsole(MessageType.Choice, "Use item?");
         for (int i = 0; i < items.Count; i++)

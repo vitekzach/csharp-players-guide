@@ -3,6 +3,7 @@ using Level52TheFinalBattle.Items;
 using Level52TheFinalBattle.Characters;
 using Level52TheFinalBattle.Enums;
 using Level52TheFinalBattle.Helpers;
+using Level52TheFinalBattle.Attacks;
 
 namespace Level52TheFinalBattle;
 
@@ -34,19 +35,32 @@ public class Game
         }
 
         Party heroesParty = new Party(
-            new List<Character>() { new TheTrueProgrammer(heroActionChooser) },
+            new List<Character>()
+            {
+                new TheTrueProgrammer(
+                    heroActionChooser
+                // new GearItem("Sword", new SlashAttack(), -1)
+                )
+            },
             PartyType.Heroes,
-            new List<ConsumableItem>()
+            new List<InventoryItem>()
             {
                 new HealthPotionItem(),
                 new HealthPotionItem(),
-                new HealthPotionItem()
+                new HealthPotionItem(),
+                new GearItem("Sword2", new SlashAttack())
             }
         );
         Party monstersParty1 = new Party(
-            new List<Character>() { new SkeletonCharacter(monsterActionChooser) },
+            new List<Character>()
+            {
+                new SkeletonCharacter(
+                    monsterActionChooser,
+                    new GearItem("Dagger", new StabAttack(), -1)
+                )
+            },
             PartyType.Monsters,
-            new List<ConsumableItem>() { new HealthPotionItem() }
+            new List<InventoryItem>() { new HealthPotionItem() }
         );
         Party monstersParty2 = new Party(
             new List<Character>()
@@ -55,12 +69,17 @@ public class Game
                 new SkeletonCharacter(monsterActionChooser)
             },
             PartyType.Monsters,
-            new List<ConsumableItem>() { new HealthPotionItem() }
+            new List<InventoryItem>()
+            {
+                new HealthPotionItem(),
+                new GearItem("Dagger", new StabAttack()),
+                new GearItem("Dagger", new StabAttack())
+            }
         );
         Party uncodedOnesParty = new Party(
             new List<Character>() { new TheUncodedOne(monsterActionChooser) },
             PartyType.Monsters,
-            new List<ConsumableItem>() { new HealthPotionItem() }
+            new List<InventoryItem>() { new HealthPotionItem() }
         );
 
         Battles = new List<Battle>()

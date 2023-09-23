@@ -3,18 +3,18 @@ using Level52TheFinalBattle.Interfaces;
 
 namespace Level52TheFinalBattle.Items;
 
-public class ConsumableItem : IConsumable
+public class InventoryItem : IUsable
 {
     public string Name { get; init; }
 
-    public ConsumableItem(string name)
+    public InventoryItem(string name)
     {
         Name = name;
     }
 
-    public void Consume(Character target)
+    public void Use(Character target, Party targetParty)
     {
-        target.ConsumeItem(this);
+        target.UseItem(this, targetParty);
     }
 
     public override string ToString()

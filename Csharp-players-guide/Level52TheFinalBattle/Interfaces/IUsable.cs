@@ -2,7 +2,7 @@ using Level52TheFinalBattle.Characters;
 
 namespace Level52TheFinalBattle.Interfaces;
 
-public interface IConsumable
+public interface IUsable
 {
-    public void Consume(Character target);
+    public void Use(Character target, Party targetParty);
 }
