@@ -52,10 +52,8 @@ public class AIAction : IChooseActionInterface
         List<GearItem> equippableGear = partyInventory.OfType<GearItem>().ToList<GearItem>();
         if (equippableGear.Count > 0 && character.EquippedGear == null)
         {
-            Console.WriteLine("Console player sees gear");
             if (RandomNumberGenerator.Next(2) == 1)
             {
-                Console.WriteLine("Equipping something...");
                 int indexOfGear = RandomNumberGenerator.Next(equippableGear.Count);
                 var gearToEquip = equippableGear[indexOfGear];
                 return partyInventory.IndexOf(gearToEquip);

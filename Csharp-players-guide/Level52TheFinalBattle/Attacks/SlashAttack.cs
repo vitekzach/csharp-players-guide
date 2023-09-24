@@ -3,10 +3,5 @@ namespace Level52TheFinalBattle.Attacks;
 public class SlashAttack : Attack
 {
     public SlashAttack()
-        : base("SLASH") { }
-
-    public override int DealDamage()
-    {
-        return 2;
-    }
+        : base("SLASH", 2, 100) { }
 }

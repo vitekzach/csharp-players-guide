@@ -38,8 +38,12 @@ public class Game
             new List<Character>()
             {
                 new TheTrueProgrammer(
-                    heroActionChooser
-                // new GearItem("Sword", new SlashAttack(), -1)
+                    heroActionChooser,
+                    new GearItem("Sword", new SlashAttack(), -1)
+                ),
+                new VinFletcher(
+                    heroActionChooser,
+                    new GearItem("Vin's bow", new QuickShotAttack(), -1)
                 )
             },
             PartyType.Heroes,
@@ -48,7 +52,7 @@ public class Game
                 new HealthPotionItem(),
                 new HealthPotionItem(),
                 new HealthPotionItem(),
-                new GearItem("Sword2", new SlashAttack())
+                // new GearItem("Sword2", new SlashAttack())
             }
         );
         Party monstersParty1 = new Party(

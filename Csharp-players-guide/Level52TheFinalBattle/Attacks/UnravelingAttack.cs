@@ -1,3 +1,5 @@
+using System.Security;
+
 namespace Level52TheFinalBattle.Attacks;
 
 public class UnravelingAttack : Attack
@@ -5,10 +7,10 @@ public class UnravelingAttack : Attack
     private Random RandomNumberGenerator { get; } = new Random();
 
     public UnravelingAttack()
-        : base("UNRAVELING ATTACK") { }
+        : base("UNRAVELING ATTACK", 2, -1) { }
 
     public override int DealDamage()
     {
-        return RandomNumberGenerator.Next(3);
+        return RandomNumberGenerator.Next(MaxDamage + 1);
     }
 }

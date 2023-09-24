@@ -86,6 +86,16 @@ public class Battle
             MessageType.Attack,
             $"{character.Name} has been defeated!"
         );
+        if (character.EquippedGear != null)
+        {
+            ConsoleHelpers.WriteLineWithColoredConsole(
+                MessageType.Info,
+                $"{character.Name}'s gear ({character.EquippedGear.Name}) has been acquired."
+            );
+            Party enemyParty = GetEnemyPartyFor(character);
+            enemyParty.Inventory.Add(character.EquippedGear);
+            character.EquippedGear = null;
+        }
     }
 
     private bool RunRound()
@@ -128,7 +138,7 @@ public class Battle
                 messageType = MessageType.Info;
 
             string heroRow = StringHelpers.GetTableRow(
-                $"  {partyCharacter.Name}",
+                $"  {partyCharacter}",
                 $"({partyCharacter.Hp}/{partyCharacter.HpInitial})",
                 TableStringHalfAlignment.Left,
                 InfoBoxWidth,
@@ -146,7 +156,7 @@ public class Battle
         );
         ConsoleHelpers.WriteLineWithColoredConsole(MessageType.Info, inventoryHeader);
 
-        foreach (ConsumableItem inventoryItem in HeroesParty.Inventory)
+        foreach (InventoryItem inventoryItem in HeroesParty.Inventory)
         {
             string inventoryRow = StringHelpers.GetTableRow(
                 $"  {inventoryItem}",
@@ -180,7 +190,7 @@ public class Battle
                 messageType = MessageType.Info;
 
             string monsterRow = StringHelpers.GetTableRow(
-                $"  {partyCharacter.Name}",
+                $"  {partyCharacter}",
                 $"({partyCharacter.Hp}/{partyCharacter.HpInitial})",
                 TableStringHalfAlignment.Right,
                 InfoBoxWidth,
@@ -190,7 +200,7 @@ public class Battle
         }
 
         inventoryHeader = StringHelpers.GetTableRow(
-            "Monster inventory",
+            "Monsters inventory",
             "",
             TableStringHalfAlignment.Right,
             InfoBoxWidth,
@@ -198,7 +208,7 @@ public class Battle
         );
         ConsoleHelpers.WriteLineWithColoredConsole(MessageType.Info, inventoryHeader);
 
-        foreach (ConsumableItem inventoryItem in MonstersParty.Inventory)
+        foreach (InventoryItem inventoryItem in MonstersParty.Inventory)
         {
             string inventoryRow = StringHelpers.GetTableRow(
                 $"  {inventoryItem}",
@@ -222,6 +232,7 @@ public class Battle
             MessageType.Team,
             $"TEAM TURN: It is {party.Type}' turn."
         );
+        party.Inventory.Sort(new InventoryItemComparer());
         foreach (Character character in party.Members)
         {
             ConsoleHelpers.WriteLineWithColoredConsole(
@@ -232,13 +243,13 @@ public class Battle
 
             character.TakeTurn(this);
             ConsoleHelpers.WriteLineWithColoredConsole(MessageType.Info, "");
-            if (CheckForGameEnd(character))
+            if (CheckForBattleEnd(character, party))
                 return true;
         }
         return false;
     }
 
-    private bool CheckForGameEnd(Character character)
+    private bool CheckForBattleEnd(Character character, Party party)
     {
         Party enemyParty = GetEnemyPartyFor(character);
         if (enemyParty.Members.Count == 0)
@@ -246,6 +257,13 @@ public class Battle
             ConsoleHelpers.WriteLineWithColoredConsole(
                 MessageType.Attack,
                 $"{enemyParty.Type} have all died!"
+            );
+
+            party.Inventory.AddRange(enemyParty.Inventory);
+            enemyParty.Inventory.Clear();
+            ConsoleHelpers.WriteLineWithColoredConsole(
+                MessageType.Info,
+                $"{enemyParty.Type}'s whole inventory has been transfered to {party.Type}."
             );
             return true;
         }

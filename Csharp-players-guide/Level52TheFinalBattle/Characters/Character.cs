@@ -18,7 +18,7 @@ public class Character
 
     public Attack Attack { get; init; }
 
-    public GearItem? EquippedGear { get; protected set; }
+    public GearItem? EquippedGear { get; set; }
 
     public int HpInitial { get; init; }
     public int Hp { get; set; }
@@ -85,7 +85,7 @@ public class Character
                 MessageType.Normal,
                 $"{Name} used {attack.Name} against {chosenEnemy.Name}."
             );
-            AttackAction attackAction = new AttackAction(attack, chosenEnemy);
+            AttackAction attackAction = new AttackAction(attack, this, chosenEnemy);
             attackAction.Run();
         }
         else

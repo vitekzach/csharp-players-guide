@@ -17,6 +17,6 @@ public class GearItem : InventoryItem
 
     public override string ToString()
     {
-        return $"{Name} (equippable)";
+        return $"{Name} (equippable,  max {GearAttack.MaxDamage} dmg)";
     }
 }
