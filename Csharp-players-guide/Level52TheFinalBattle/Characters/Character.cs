@@ -6,6 +6,7 @@ using Level52TheFinalBattle.Attacks;
 using Level52TheFinalBattle.Enums;
 using Level52TheFinalBattle.Helpers;
 using Level52TheFinalBattle.Items;
+using Level52TheFinalBattle.Records;
 
 namespace Level52TheFinalBattle.Characters;
 
@@ -20,15 +21,24 @@ public class Character
 
     public GearItem? EquippedGear { get; set; }
 
+    public AttackModifier? DefensiveAttackModifier { get; init; }
+
     public int HpInitial { get; init; }
-    public int Hp { get; set; }
+
+    private int _hp;
+    public int Hp
+    {
+        get => _hp;
+        set => _hp = Math.Clamp(value, 0, HpInitial);
+    }
 
     public Character(
         string name,
         IChooseActionInterface actionChooser,
         Attack attack,
         int hpInitial,
-        GearItem? startingGearItem
+        GearItem? startingGearItem,
+        AttackModifier? defensiveAttackModifier
     )
     {
         Name = name;
@@ -40,6 +50,8 @@ public class Character
         EquippedGear = startingGearItem;
         if (startingGearItem != null)
             Moves.Add(CharacterMove.GearAttack);
+        if (defensiveAttackModifier != null)
+            DefensiveAttackModifier = defensiveAttackModifier;
     }
 
     public virtual void TakeTurn(Battle battle)
@@ -92,9 +104,17 @@ public class Character
             Console.WriteLine($"{Name} did {move}.");
     }
 
-    public void TakeDamage(int damage)
+    public void GetAttacked(AttackData attackData)
     {
-        Hp = Math.Clamp(Hp - damage, 0, HpInitial);
+        if (DefensiveAttackModifier != null)
+        {
+            attackData = DefensiveAttackModifier.ModifyAttack(attackData);
+            ConsoleHelpers.WriteLineWithColoredConsole(
+                MessageType.Attack,
+                $"{DefensiveAttackModifier.Name} reduced the attack by {DefensiveAttackModifier.DamageModifier} point."
+            );
+        }
+        Hp -= attackData.Damage;
         if (Hp == 0)
         {
             CharacterDied?.Invoke(this);

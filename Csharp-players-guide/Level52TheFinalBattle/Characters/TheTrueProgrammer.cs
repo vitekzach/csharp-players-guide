@@ -9,14 +9,16 @@ public class TheTrueProgrammer : Character
 {
     public TheTrueProgrammer(
         IChooseActionInterface actionChooser,
-        GearItem? startingGearItem = null
+        GearItem? startingGearItem = null,
+        AttackModifier? defensiveAttackModifier = null
     )
         : base(
             GetCharacterName("The True Programmer"),
             actionChooser,
             new PunchAttack(),
             25,
-            startingGearItem
+            startingGearItem,
+            defensiveAttackModifier
         ) { }
 
     private static string GetCharacterName(string characterType)

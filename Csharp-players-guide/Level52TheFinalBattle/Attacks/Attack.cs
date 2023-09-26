@@ -2,6 +2,7 @@ using System.Runtime;
 using System.Runtime.InteropServices;
 using Level52TheFinalBattle.Characters;
 using Level52TheFinalBattle.Interfaces;
+using Level52TheFinalBattle.Records;
 
 namespace Level52TheFinalBattle.Attacks;
 
@@ -27,10 +28,21 @@ public abstract class Attack
         HitProbability = hitProbability;
     }
 
-    public virtual int DealDamage()
+    public virtual int GetDamage()
     {
+        int damageDealt;
+
         if (randomNumberGenerator.Next(100) < HitProbability)
-            return MaxDamage;
-        return 0;
+            damageDealt = MaxDamage;
+        else
+            damageDealt = 0;
+
+        return damageDealt;
+    }
+
+    public AttackData GetAttackData(Character attacker, Character target)
+    {
+        int damageDealt = GetDamage();
+        return new AttackData(attacker, target, Name, damageDealt);
     }
 }

@@ -53,6 +53,13 @@ public class InventoryItem : IUsable //, IComparable
     }
 }
 
+public enum InventoryItemOrder
+{
+    HealthPotion = 0,
+    Gear = 1,
+    Other = 2
+}
+
 public class InventoryItemComparer : IComparer<InventoryItem>
 {
     public int Compare(InventoryItem? x, InventoryItem? y)
@@ -62,11 +69,19 @@ public class InventoryItemComparer : IComparer<InventoryItem>
             return potionA.HealingPower - potionB.HealingPower;
         }
 
-        if (x is HealthPotionItem)
-            return -1;
-
         if (x is GearItem gearA && y is GearItem gearB)
             return gearA.GearAttack.MaxDamage - gearB.GearAttack.MaxDamage;
-        return 0;
+
+        return (int)GetInventoryTypeEnum(x) - (int)GetInventoryTypeEnum(y);
+    }
+
+    private InventoryItemOrder GetInventoryTypeEnum(InventoryItem? item)
+    {
+        return item switch
+        {
+            HealthPotionItem => InventoryItemOrder.HealthPotion,
+            GearItem => InventoryItemOrder.Gear,
+            _ => InventoryItemOrder.Other
+        };
     }
 }

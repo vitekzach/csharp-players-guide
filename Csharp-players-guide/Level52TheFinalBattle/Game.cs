@@ -1,9 +1,9 @@
 using Level52TheFinalBattle.ActionChoosers;
-using Level52TheFinalBattle.Items;
+using Level52TheFinalBattle.Attacks;
 using Level52TheFinalBattle.Characters;
 using Level52TheFinalBattle.Enums;
 using Level52TheFinalBattle.Helpers;
-using Level52TheFinalBattle.Attacks;
+using Level52TheFinalBattle.Items;
 
 namespace Level52TheFinalBattle;
 
@@ -80,6 +80,15 @@ public class Game
                 new GearItem("Dagger", new StabAttack())
             }
         );
+        Party monstersParty3 = new Party(
+            new List<Character>()
+            {
+                new StoneAmarok(monsterActionChooser, null, new AttackModifier("STONE ARMOR", -1)),
+                new StoneAmarok(monsterActionChooser, null, new AttackModifier("STONE ARMOR", -1))
+            },
+            PartyType.Monsters,
+            new List<InventoryItem>() { }
+        );
         Party uncodedOnesParty = new Party(
             new List<Character>() { new TheUncodedOne(monsterActionChooser) },
             PartyType.Monsters,
@@ -90,6 +99,7 @@ public class Game
         {
             new Battle(heroesParty, monstersParty1),
             new Battle(heroesParty, monstersParty2),
+            new Battle(heroesParty, monstersParty3),
             new Battle(heroesParty, uncodedOnesParty)
         };
     }

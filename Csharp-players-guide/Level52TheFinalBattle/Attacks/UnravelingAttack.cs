@@ -9,7 +9,7 @@ public class UnravelingAttack : Attack
     public UnravelingAttack()
         : base("UNRAVELING ATTACK", 2, -1) { }
 
-    public override int DealDamage()
+    public override int GetDamage()
     {
         return RandomNumberGenerator.Next(MaxDamage + 1);
     }

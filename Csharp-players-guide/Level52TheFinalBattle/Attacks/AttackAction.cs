@@ -1,6 +1,7 @@
 using Level52TheFinalBattle.Characters;
 using Level52TheFinalBattle.Enums;
 using Level52TheFinalBattle.Helpers;
+using Level52TheFinalBattle.Records;
 
 namespace Level52TheFinalBattle.Attacks;
 
@@ -19,9 +20,9 @@ public class AttackAction
 
     public void Run()
     {
-        int damage = Attack.DealDamage();
+        AttackData attackData = Attack.GetAttackData(_attacker, Target);
 
-        if (damage == 0)
+        if (attackData.Damage == 0)
         {
             ConsoleHelpers.WriteLineWithColoredConsole(
                 MessageType.Attack,
@@ -30,17 +31,16 @@ public class AttackAction
             return;
         }
 
-        int characterNewHp = Math.Clamp(Target.Hp - damage, 0, Target.HpInitial);
+        int characterHpBefore = Target.Hp;
+        Target.GetAttacked(attackData);
 
         ConsoleHelpers.WriteLineWithColoredConsole(
             MessageType.Attack,
-            $"{Attack.Name} dealt {damage} damage to {Target.Name}."
+            $"{Attack.Name} dealt {characterHpBefore - Target.Hp} damage to {Target.Name}."
         );
         ConsoleHelpers.WriteLineWithColoredConsole(
             MessageType.Attack,
-            $"{Target.Name} is now at {characterNewHp}/{Target.HpInitial} HP."
+            $"{Target.Name} is now at {Target.Hp}/{Target.HpInitial} HP."
         );
-
-        Target.TakeDamage(damage);
     }
 }
