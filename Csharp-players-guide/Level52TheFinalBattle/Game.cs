@@ -39,7 +39,8 @@ public class Game
             {
                 new TheTrueProgrammer(
                     heroActionChooser,
-                    new GearItem("Sword", new SlashAttack(), -1)
+                    new GearItem("Sword", new SlashAttack(), -1),
+                    new AttackModifier("Object Sight", -2, DamageType.Decoding)
                 ),
                 new VinFletcher(
                     heroActionChooser,
@@ -83,8 +84,16 @@ public class Game
         Party monstersParty3 = new Party(
             new List<Character>()
             {
-                new StoneAmarok(monsterActionChooser, null, new AttackModifier("STONE ARMOR", -1)),
-                new StoneAmarok(monsterActionChooser, null, new AttackModifier("STONE ARMOR", -1))
+                new StoneAmarok(
+                    monsterActionChooser,
+                    null,
+                    new AttackModifier("STONE ARMOR", -1, DamageType.Normal)
+                ),
+                new StoneAmarok(
+                    monsterActionChooser,
+                    null,
+                    new AttackModifier("STONE ARMOR", -1, DamageType.Normal)
+                )
             },
             PartyType.Monsters,
             new List<InventoryItem>() { }

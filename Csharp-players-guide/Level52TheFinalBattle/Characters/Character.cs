@@ -109,10 +109,6 @@ public class Character
         if (DefensiveAttackModifier != null)
         {
             attackData = DefensiveAttackModifier.ModifyAttack(attackData);
-            ConsoleHelpers.WriteLineWithColoredConsole(
-                MessageType.Attack,
-                $"{DefensiveAttackModifier.Name} reduced the attack by {DefensiveAttackModifier.DamageModifier} point."
-            );
         }
         Hp -= attackData.Damage;
         if (Hp == 0)

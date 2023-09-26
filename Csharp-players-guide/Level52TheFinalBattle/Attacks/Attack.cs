@@ -1,48 +1,43 @@
-using System.Runtime;
-using System.Runtime.InteropServices;
 using Level52TheFinalBattle.Characters;
-using Level52TheFinalBattle.Interfaces;
+using Level52TheFinalBattle.Enums;
 using Level52TheFinalBattle.Records;
 
-namespace Level52TheFinalBattle.Attacks;
-
-public abstract class Attack
+namespace Level52TheFinalBattle.Attacks
 {
-    public string Name { get; init; } = "DEFAULT";
-    public int MaxDamage { get; init; }
-
-    private Random randomNumberGenerator = new Random();
-
-    private int _hitProbability;
-
-    public int HitProbability
+    public abstract class Attack
     {
-        get => _hitProbability;
-        init => _hitProbability = Math.Clamp(value, 0, 100);
-    }
+        public string Name { get; init; } = "DEFAULT";
+        public int MaxDamage { get; init; }
 
-    public Attack(string name, int maxDamage, int hitProbability = -1)
-    {
-        Name = name;
-        MaxDamage = maxDamage;
-        HitProbability = hitProbability;
-    }
+        public DamageType DamageType { get; init; }
+        private readonly Random randomNumberGenerator = new();
 
-    public virtual int GetDamage()
-    {
-        int damageDealt;
+        private int _hitProbability;
 
-        if (randomNumberGenerator.Next(100) < HitProbability)
-            damageDealt = MaxDamage;
-        else
-            damageDealt = 0;
+        public int HitProbability
+        {
+            get => _hitProbability;
+            init => _hitProbability = Math.Clamp(value, 0, 100);
+        }
 
-        return damageDealt;
-    }
+        public Attack(string name, int maxDamage, DamageType attackType, int hitProbability = -1)
+        {
+            Name = name;
+            MaxDamage = maxDamage;
+            HitProbability = hitProbability;
+            DamageType = attackType;
+        }
 
-    public AttackData GetAttackData(Character attacker, Character target)
-    {
-        int damageDealt = GetDamage();
-        return new AttackData(attacker, target, Name, damageDealt);
+        public virtual int GetDamage()
+        {
+            int damageDealt = randomNumberGenerator.Next(100) < HitProbability ? MaxDamage : 0;
+            return damageDealt;
+        }
+
+        public AttackData GetAttackData(Character attacker, Character target)
+        {
+            int damageDealt = GetDamage();
+            return new AttackData(attacker, target, Name, damageDealt, DamageType);
+        }
     }
 }
