@@ -15,12 +15,12 @@ public class Character
 {
     public event Action<Character>? CharacterDied;
     public string Name { get; init; }
-    public List<CharacterMove> Moves { get; private set; }
+    public List<Attack> Moves { get; private set; }
     private IChooseActionInterface ActionChooser { get; init; }
 
-    public Attack Attack { get; init; }
+    public Attack MainAttack { get; init; }
 
-    public GearItem? EquippedGear { get; set; }
+    public List<GearItem> EquippedGear { get; set; }
 
     public AttackModifier? DefensiveAttackModifier { get; init; }
     public AttackModifier? OffensiveAttackModifier { get; init; }
@@ -39,36 +39,37 @@ public class Character
         IChooseActionInterface actionChooser,
         Attack attack,
         int hpInitial,
-        GearItem? startingGearItem = null,
+        List<GearItem>? startingGearItem = null,
         AttackModifier? defensiveAttackModifier = null,
         AttackModifier? offensiveAttackModifier = null
     )
     {
         Name = name;
-        Moves = new List<CharacterMove>() { CharacterMove.Nothing, CharacterMove.Attack };
         ActionChooser = actionChooser;
-        Attack = attack;
+        MainAttack = attack;
         HpMax = hpInitial;
         Hp = hpInitial;
-        EquippedGear = startingGearItem;
-        if (startingGearItem != null)
-            Moves.Add(CharacterMove.GearAttack);
+        EquippedGear = startingGearItem ?? new List<GearItem>();
         if (defensiveAttackModifier != null)
             DefensiveAttackModifier = defensiveAttackModifier;
         if (offensiveAttackModifier != null)
             OffensiveAttackModifier = offensiveAttackModifier;
+        Moves = CreateMoveChoiceList();
     }
 
     public virtual void TakeTurn(Battle battle)
     {
-        if (EquippedGear?.RoundsToActivate == 1)
+        foreach (GearItem gearItem in EquippedGear)
         {
-            Moves.Add(CharacterMove.GearAttack);
-            EquippedGear.RoundsToActivate = -1;
-        }
+            if (gearItem.RoundsToActivate == 1)
+            {
+                Moves = CreateMoveChoiceList();
+                gearItem.RoundsToActivate = -1;
+            }
 
-        if (EquippedGear?.RoundsToActivate > 1)
-            EquippedGear.RoundsToActivate--;
+            if (gearItem.RoundsToActivate > 1)
+                gearItem.RoundsToActivate--;
+        }
 
         Party characterParty = battle.GetPartyFor(this);
 
@@ -80,33 +81,16 @@ public class Character
             UseItem(item, characterParty);
         }
 
-        CharacterMove move = ActionChooser.ChooseAction(this);
-        if (move == CharacterMove.Attack || move == CharacterMove.GearAttack)
+        Attack move = ActionChooser.ChooseAction(this);
+        if (move.DamageType == DamageType.NoDamage)
         {
-            Attack attack;
-            if (move == CharacterMove.Attack)
-            {
-                attack = Attack;
-            }
-            else if (move == CharacterMove.GearAttack)
-            {
-                attack = EquippedGear!.GearAttack;
-            }
-            else
-            {
-                throw new NotImplementedException("What is this move?");
-            }
-            Character chosenEnemy = ActionChooser.ChooseEnemyTarget(this, battle);
-
-            ConsoleHelpers.WriteLineWithColoredConsole(
-                MessageType.Normal,
-                $"{Name} used {attack.Name} against {chosenEnemy.Name}."
-            );
-            AttackAction attackAction = new AttackAction(attack, this, chosenEnemy);
-            attackAction.Run();
+            ConsoleHelpers.WriteLineWithColoredConsole(MessageType.Attack, $"{Name} did nothing.");
+            return;
         }
-        else
-            Console.WriteLine($"{Name} did {move}.");
+        Character chosenEnemy = ActionChooser.ChooseEnemyTarget(this, battle);
+
+        AttackAction attackAction = new AttackAction(move, this, chosenEnemy);
+        attackAction.Run();
     }
 
     public void GetAttacked(AttackData attackData)
@@ -132,8 +116,10 @@ public class Character
     public override string ToString()
     {
         string suffix = "";
-        if (EquippedGear != null)
-            suffix += $" (wearing {EquippedGear.Name})";
+        var equippedGearItemNamesEnumerable = EquippedGear.Select(x => x.Name);
+        string equippedGearItemNames = string.Join(',', equippedGearItemNamesEnumerable);
+        if (equippedGearItemNames != "")
+            suffix += $" (wearing {equippedGearItemNames})";
         return $"{Name}{suffix}";
     }
 
@@ -149,22 +135,27 @@ public class Character
                 );
                 break;
             case GearItem g:
-                if (EquippedGear != null)
-                {
-                    ConsoleHelpers.WriteLineWithColoredConsole(
-                        MessageType.Item,
-                        $"Putting {EquippedGear.Name} back to team inventory."
-                    );
-                    party.Inventory.Add(EquippedGear);
-                    EquippedGear = null;
-                }
                 ConsoleHelpers.WriteLineWithColoredConsole(
                     MessageType.Item,
                     $"{Name} equipped {g.Name}."
                 );
-                EquippedGear = g;
+                EquippedGear.Add(g);
+                Moves = CreateMoveChoiceList();
                 break;
         }
+    }
+
+    private List<Attack> CreateMoveChoiceList()
+    {
+        List<Attack> ListOfMoves = new List<Attack>
+        {
+            AttackCreator.CreateAttack(AttackEnum.DoNothing),
+            MainAttack
+        };
+        foreach (GearItem gearItem in EquippedGear)
+            if (gearItem.RoundsToActivate < 1)
+                ListOfMoves.Add(gearItem.GearAttack);
+        return ListOfMoves;
     }
 }
 
@@ -186,7 +177,7 @@ internal static class CharacterCreator
                     actionChooser,
                     AttackCreator.CreateAttack(AttackEnum.Punch),
                     25,
-                    GearCreator.CreateGearItem(GearItemEnum.Sword),
+                    new List<GearItem> { GearCreator.CreateGearItem(GearItemEnum.Sword) },
                     AttackModifierCreator.CreateDefensiveAttackModifier(
                         DefensiveAttackModifierEnum.ObjectSight
                     ),
@@ -200,7 +191,7 @@ internal static class CharacterCreator
                     actionChooser,
                     AttackCreator.CreateAttack(AttackEnum.Punch),
                     15,
-                    GearCreator.CreateGearItem(GearItemEnum.VinsBow)
+                    new List<GearItem> { GearCreator.CreateGearItem(GearItemEnum.VinsBow) }
                 );
             case HeroCharacter.Mylara:
                 return new Character(
@@ -243,7 +234,7 @@ internal static class CharacterCreator
                     actionChooser,
                     AttackCreator.CreateAttack(AttackEnum.BoneCrunch),
                     5,
-                    GearCreator.CreateGearItem(GearItemEnum.Dagger)
+                    new List<GearItem> { GearCreator.CreateGearItem(GearItemEnum.Dagger) }
                 );
             case MonsterCharacter.StoneAmarok:
                 return new Character(

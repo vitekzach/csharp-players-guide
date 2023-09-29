@@ -22,6 +22,11 @@ public class AttackAction
     {
         AttackData attackData = Attack.GetAttackData(_attacker, Target);
 
+        ConsoleHelpers.WriteLineWithColoredConsole(
+            MessageType.Normal,
+            $"{_attacker.Name} used {Attack.Name} against {Target.Name}."
+        );
+
         if (attackData.Damage == 0)
         {
             ConsoleHelpers.WriteLineWithColoredConsole(

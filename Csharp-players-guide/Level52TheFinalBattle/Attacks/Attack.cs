@@ -76,41 +76,47 @@ public class Attack
         int damageDealt = GetDamage();
         return new AttackData(attacker, target, Name, damageDealt, DamageType);
     }
+
+    public override string ToString()
+    {
+        return $"{Name} (max damage {MaxDamage})";
+    }
 }
 
 internal static class AttackCreator
 {
     internal static Attack CreateAttack(AttackEnum attack)
     {
-        switch (attack)
+        return attack switch
         {
-            case AttackEnum.Bite:
-                return new Attack("BITE ATTACK", 1, DamageType.Normal, 100);
-            case AttackEnum.BoneCrunch:
-                return new Attack("BONE CRUNCH", 1, DamageType.Normal, 50);
-            case AttackEnum.Punch:
-                return new Attack("PUNCH", 1, DamageType.Normal, 50);
-            case AttackEnum.QuickShot:
-                return new Attack("QUICK SHOT", 3, DamageType.Normal, 50);
-            case AttackEnum.Slash:
-                return new Attack("SLASH", 2, DamageType.Normal, 100);
-            case AttackEnum.Stab:
-                return new Attack("STAB", 1, DamageType.Normal, 100);
-            case AttackEnum.Unraveling:
-                return new Attack(
+            AttackEnum.DoNothing
+                => new Attack(
+                    "DO NOTHING",
+                    0,
+                    DamageType.NoDamage,
+                    AttackDamageGenerationEnum.RandomNumberBased
+                ),
+            AttackEnum.Bite => new Attack("BITE ATTACK", 1, DamageType.Normal, 100),
+            AttackEnum.BoneCrunch => new Attack("BONE CRUNCH", 1, DamageType.Normal, 50),
+            AttackEnum.Punch => new Attack("PUNCH", 1, DamageType.Normal, 50),
+            AttackEnum.QuickShot => new Attack("QUICK SHOT", 3, DamageType.Normal, 50),
+            AttackEnum.Slash => new Attack("SLASH", 2, DamageType.Normal, 100),
+            AttackEnum.Stab => new Attack("STAB", 1, DamageType.Normal, 100),
+            AttackEnum.Unraveling
+                => new Attack(
                     "UNRAVELING ATTACK",
                     4,
                     DamageType.Decoding,
                     AttackDamageGenerationEnum.RandomNumberBased
-                );
-            case AttackEnum.CannonShot:
-                return new Attack(
+                ),
+            AttackEnum.CannonShot
+                => new Attack(
                     "CANNON SHOT",
                     5,
                     DamageType.Normal,
                     AttackDamageGenerationEnum.UsageCountBased
-                );
-        }
-        throw new NotImplementedException("Unknown attack type enoucntered.");
+                ),
+            _ => throw new NotImplementedException("Unknown attack type enoucntered.")
+        };
     }
 }

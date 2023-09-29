@@ -1,4 +1,6 @@
 using System.Security;
+using System.Security.Cryptography.X509Certificates;
+using Level52TheFinalBattle.Attacks;
 using Level52TheFinalBattle.Characters;
 using Level52TheFinalBattle.Enums;
 using Level52TheFinalBattle.Helpers;
@@ -10,13 +12,13 @@ public class AIAction : IChooseActionInterface
 {
     private Random RandomNumberGenerator { get; } = new Random();
 
-    public CharacterMove ChooseAction(Character character)
+    public Attack ChooseAction(Character character)
     {
-        if (character.EquippedGear != null)
+        if (character.EquippedGear.Any())
         {
-            return CharacterMove.GearAttack;
+            return character.EquippedGear.MaxBy(x => x.GearAttack.MaxDamage)!.GearAttack;
         }
-        return CharacterMove.Attack;
+        return character.MainAttack;
     }
 
     public Character ChooseEnemyTarget(Character character, Battle battle)

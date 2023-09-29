@@ -26,15 +26,15 @@ internal static class GearCreator
 {
     public static GearItem CreateGearItem(GearItemEnum gearItem)
     {
-        switch (gearItem)
+        return gearItem switch
         {
-            case GearItemEnum.Sword:
-                return new GearItem("Sword", AttackCreator.CreateAttack(AttackEnum.Slash));
-            case GearItemEnum.Dagger:
-                return new GearItem("Dagger", AttackCreator.CreateAttack(AttackEnum.Stab));
-            case GearItemEnum.VinsBow:
-                return new GearItem("Vin's bow", AttackCreator.CreateAttack(AttackEnum.QuickShot));
-        }
-        throw new NotImplementedException("Unkown gear type encoutered.");
+            GearItemEnum.Sword
+                => new GearItem("Sword", AttackCreator.CreateAttack(AttackEnum.Slash)),
+            GearItemEnum.Dagger
+                => new GearItem("Dagger", AttackCreator.CreateAttack(AttackEnum.Stab)),
+            GearItemEnum.VinsBow
+                => new GearItem("Vin's bow", AttackCreator.CreateAttack(AttackEnum.QuickShot)),
+            _ => throw new NotImplementedException("Unkown gear type encoutered.")
+        };
     }
 }

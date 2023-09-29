@@ -86,15 +86,17 @@ public class Battle
             MessageType.Attack,
             $"{character.Name} has been defeated!"
         );
-        if (character.EquippedGear != null)
+        if (character.EquippedGear.Any())
         {
+            var gearNames = character.EquippedGear.Select(x => x.Name);
+            string gearNamesJoined = string.Join(',', gearNames);
             ConsoleHelpers.WriteLineWithColoredConsole(
                 MessageType.Info,
-                $"{character.Name}'s gear ({character.EquippedGear.Name}) has been acquired."
+                $"{character.Name}'s gear ({gearNamesJoined}) has been acquired."
             );
             Party enemyParty = GetEnemyPartyFor(character);
-            enemyParty.Inventory.Add(character.EquippedGear);
-            character.EquippedGear = null;
+            enemyParty.Inventory.AddRange(character.EquippedGear);
+            character.EquippedGear.Clear();
         }
     }
 

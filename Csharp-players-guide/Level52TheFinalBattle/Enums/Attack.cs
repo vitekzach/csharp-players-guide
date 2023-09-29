@@ -2,6 +2,7 @@ namespace Level52TheFinalBattle.Enums;
 
 internal enum AttackEnum
 {
+    DoNothing,
     Bite,
     BoneCrunch,
     Punch,

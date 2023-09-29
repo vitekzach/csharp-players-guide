@@ -2,14 +2,15 @@ using Level52TheFinalBattle.Characters;
 using Level52TheFinalBattle.Items;
 using Level52TheFinalBattle.Helpers;
 using Level52TheFinalBattle.Enums;
+using Level52TheFinalBattle.Attacks;
 
 namespace Level52TheFinalBattle.ActionChoosers;
 
 public class ConsoleAction : IChooseActionInterface
 {
-    public CharacterMove ChooseAction(Character character)
+    public Attack ChooseAction(Character character)
     {
-        int moveChoice = ConsoleHelpers.GetValidConsoleIntegerInputBasedOnListIndex<CharacterMove>(
+        int moveChoice = ConsoleHelpers.GetValidConsoleIntegerInputBasedOnListIndex<Attack>(
             "Move chosen: ",
             character.Moves,
             PrintAvailableMoves
@@ -18,21 +19,13 @@ public class ConsoleAction : IChooseActionInterface
         return character.Moves[moveChoice];
     }
 
-    private void PrintAvailableMoves(List<CharacterMove> moves)
+    private void PrintAvailableMoves(List<Attack> moves)
     {
         ConsoleHelpers.WriteLineWithColoredConsole(
             MessageType.Choice,
             "Choose from the following moves:"
         );
-        ConsoleHelpers.PrintChoicesFromList<CharacterMove>(moves);
-
-        // for (int i = 0; i < character.Moves.Count; i++)
-        // {
-        //     ConsoleHelpers.WriteLineWithColoredConsole(
-        //         MessageType.Choice,
-        //         $" ({i + 1}) {character.Moves[i]}"
-        //     );
-        // }
+        ConsoleHelpers.PrintChoicesFromList<Attack>(moves);
     }
 
     public Character ChooseEnemyTarget(Character character, Battle battle)
