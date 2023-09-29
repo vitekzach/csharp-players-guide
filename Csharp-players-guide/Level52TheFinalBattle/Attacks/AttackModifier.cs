@@ -48,4 +48,16 @@ internal static class AttackModifierCreator
         }
         throw new NotImplementedException("Unkown defensive attack modifier encountered.");
     }
+
+    internal static AttackModifier CreateOffensiveAttackModifier(
+        OffensiveAttackModifierEnum offensiveAttackModifier
+    )
+    {
+        return offensiveAttackModifier switch
+        {
+            OffensiveAttackModifierEnum.CodersAdvantage
+                => new AttackModifier("Coder's advatage", 2, DamageType.Normal),
+            _ => throw new NotImplementedException("Unkown offensive attack modifier encountered.")
+        };
+    }
 }

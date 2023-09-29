@@ -23,6 +23,7 @@ public class Character
     public GearItem? EquippedGear { get; set; }
 
     public AttackModifier? DefensiveAttackModifier { get; init; }
+    public AttackModifier? OffensiveAttackModifier { get; init; }
 
     public int HpMax { get; init; }
 
@@ -39,7 +40,8 @@ public class Character
         Attack attack,
         int hpInitial,
         GearItem? startingGearItem = null,
-        AttackModifier? defensiveAttackModifier = null
+        AttackModifier? defensiveAttackModifier = null,
+        AttackModifier? offensiveAttackModifier = null
     )
     {
         Name = name;
@@ -53,6 +55,8 @@ public class Character
             Moves.Add(CharacterMove.GearAttack);
         if (defensiveAttackModifier != null)
             DefensiveAttackModifier = defensiveAttackModifier;
+        if (offensiveAttackModifier != null)
+            OffensiveAttackModifier = offensiveAttackModifier;
     }
 
     public virtual void TakeTurn(Battle battle)
@@ -129,7 +133,7 @@ public class Character
     {
         string suffix = "";
         if (EquippedGear != null)
-            suffix += $" (with {EquippedGear.Name})";
+            suffix += $" (wearing {EquippedGear.Name})";
         return $"{Name}{suffix}";
     }
 
@@ -185,6 +189,9 @@ internal static class CharacterCreator
                     GearCreator.CreateGearItem(GearItemEnum.Sword),
                     AttackModifierCreator.CreateDefensiveAttackModifier(
                         DefensiveAttackModifierEnum.ObjectSight
+                    ),
+                    AttackModifierCreator.CreateOffensiveAttackModifier(
+                        OffensiveAttackModifierEnum.CodersAdvantage
                     )
                 );
             case HeroCharacter.VinFletcher:

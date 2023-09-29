@@ -32,6 +32,10 @@ public class AttackAction
         }
 
         int characterHpBefore = Target.Hp;
+
+        if (_attacker.OffensiveAttackModifier != null)
+            attackData = _attacker.OffensiveAttackModifier.ModifyAttack(attackData);
+
         Target.GetAttacked(attackData);
 
         ConsoleHelpers.WriteLineWithColoredConsole(

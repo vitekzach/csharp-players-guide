@@ -58,9 +58,9 @@ public class Game
             PartyType.Heroes,
             new List<InventoryItem>()
             {
-                new HealthPotionItem(),
-                new HealthPotionItem(),
-                new HealthPotionItem(),
+                new HealthPotionItem(HealingItemEnum.BigPotion),
+                new HealthPotionItem(HealingItemEnum.BigPotion),
+                new HealthPotionItem(HealingItemEnum.SimulasSoup),
                 // new GearItem("Sword2", new SlashAttack())
             }
         );
@@ -73,7 +73,7 @@ public class Game
                 )
             },
             PartyType.Monsters,
-            new List<InventoryItem>() { new HealthPotionItem() }
+            new List<InventoryItem>() { new HealthPotionItem(HealingItemEnum.BigPotion) }
         );
         Party monstersParty2 = new Party(
             new List<Character>()
@@ -90,7 +90,7 @@ public class Game
             PartyType.Monsters,
             new List<InventoryItem>()
             {
-                new HealthPotionItem(),
+                new HealthPotionItem(HealingItemEnum.BigPotion),
                 GearCreator.CreateGearItem(GearItemEnum.Dagger),
                 GearCreator.CreateGearItem(GearItemEnum.Dagger),
             }
@@ -119,7 +119,7 @@ public class Game
                 )
             },
             PartyType.Monsters,
-            new List<InventoryItem>() { new HealthPotionItem() }
+            new List<InventoryItem>() { new HealthPotionItem(HealingItemEnum.BigPotion) }
         );
 
         return new List<Battle>()
