@@ -15,37 +15,43 @@ public class Game
     {
         GameMode chosenGameMode = GetGameMode();
 
-        IChooseActionInterface heroActionChooser = new AIAction();
-        IChooseActionInterface monsterActionChooser = new AIAction();
+        ActionChooserEnum heroActionChooser;
+        ActionChooserEnum monsterActionChooser;
 
         switch (chosenGameMode)
         {
             case GameMode.AIvsAI:
-                heroActionChooser = new AIAction();
-                monsterActionChooser = new AIAction();
+                heroActionChooser = ActionChooserEnum.AI;
+                monsterActionChooser = ActionChooserEnum.AI;
                 break;
             case GameMode.HumanVsAI:
-                heroActionChooser = new ConsoleAction();
-                monsterActionChooser = new AIAction();
+                heroActionChooser = ActionChooserEnum.Human;
+                monsterActionChooser = ActionChooserEnum.AI;
                 break;
             case GameMode.HumanvsHuman:
-                heroActionChooser = new ConsoleAction();
-                monsterActionChooser = new ConsoleAction();
+                heroActionChooser = ActionChooserEnum.Human;
+                monsterActionChooser = ActionChooserEnum.Human;
                 break;
+            default:
+                throw new NotImplementedException("Unkown game mode encountered.");
         }
 
+        Battles = InitDefaultGame(heroActionChooser, monsterActionChooser);
+    }
+
+    private List<Battle> InitDefaultGame(
+        ActionChooserEnum heroActionChooser,
+        ActionChooserEnum monsterActionChooser
+    )
+    {
         Party heroesParty = new Party(
             new List<Character>()
             {
-                new TheTrueProgrammer(
-                    heroActionChooser,
-                    new GearItem("Sword", new SlashAttack(), -1),
-                    new AttackModifier("Object Sight", -2, DamageType.Decoding)
+                CharacterCreator.CreateHeroCharacter(
+                    HeroCharacter.TheTrueProgrammer,
+                    heroActionChooser
                 ),
-                new VinFletcher(
-                    heroActionChooser,
-                    new GearItem("Vin's bow", new QuickShotAttack(), -1)
-                )
+                CharacterCreator.CreateHeroCharacter(HeroCharacter.VinFletcher, heroActionChooser)
             },
             PartyType.Heroes,
             new List<InventoryItem>()
@@ -59,9 +65,9 @@ public class Game
         Party monstersParty1 = new Party(
             new List<Character>()
             {
-                new SkeletonCharacter(
-                    monsterActionChooser,
-                    new GearItem("Dagger", new StabAttack(), -1)
+                CharacterCreator.CreateMonsterCharacter(
+                    MonsterCharacter.SkeletonWithDagger,
+                    monsterActionChooser
                 )
             },
             PartyType.Monsters,
@@ -70,41 +76,51 @@ public class Game
         Party monstersParty2 = new Party(
             new List<Character>()
             {
-                new SkeletonCharacter(monsterActionChooser),
-                new SkeletonCharacter(monsterActionChooser)
+                CharacterCreator.CreateMonsterCharacter(
+                    MonsterCharacter.Skeleton,
+                    monsterActionChooser
+                ),
+                CharacterCreator.CreateMonsterCharacter(
+                    MonsterCharacter.Skeleton,
+                    monsterActionChooser
+                )
             },
             PartyType.Monsters,
             new List<InventoryItem>()
             {
                 new HealthPotionItem(),
-                new GearItem("Dagger", new StabAttack()),
-                new GearItem("Dagger", new StabAttack())
+                GearCreator.CreateGearItem(GearItemEnum.Dagger),
+                GearCreator.CreateGearItem(GearItemEnum.Dagger),
             }
         );
         Party monstersParty3 = new Party(
             new List<Character>()
             {
-                new StoneAmarok(
-                    monsterActionChooser,
-                    null,
-                    new AttackModifier("STONE ARMOR", -1, DamageType.Normal)
+                CharacterCreator.CreateMonsterCharacter(
+                    MonsterCharacter.StoneAmarok,
+                    monsterActionChooser
                 ),
-                new StoneAmarok(
-                    monsterActionChooser,
-                    null,
-                    new AttackModifier("STONE ARMOR", -1, DamageType.Normal)
-                )
+                CharacterCreator.CreateMonsterCharacter(
+                    MonsterCharacter.StoneAmarok,
+                    monsterActionChooser
+                ),
             },
             PartyType.Monsters,
             new List<InventoryItem>() { }
         );
         Party uncodedOnesParty = new Party(
-            new List<Character>() { new TheUncodedOne(monsterActionChooser) },
+            new List<Character>()
+            {
+                CharacterCreator.CreateMonsterCharacter(
+                    MonsterCharacter.TheUncodedOne,
+                    monsterActionChooser
+                )
+            },
             PartyType.Monsters,
             new List<InventoryItem>() { new HealthPotionItem() }
         );
 
-        Battles = new List<Battle>()
+        return new List<Battle>()
         {
             new Battle(heroesParty, monstersParty1),
             new Battle(heroesParty, monstersParty2),

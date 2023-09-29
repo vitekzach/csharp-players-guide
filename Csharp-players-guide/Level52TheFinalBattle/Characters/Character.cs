@@ -1,6 +1,7 @@
 using System.Diagnostics.Tracing;
 using System.Security.AccessControl;
 using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 using Level52TheFinalBattle.ActionChoosers;
 using Level52TheFinalBattle.Attacks;
 using Level52TheFinalBattle.Enums;
@@ -23,13 +24,13 @@ public class Character
 
     public AttackModifier? DefensiveAttackModifier { get; init; }
 
-    public int HpInitial { get; init; }
+    public int HpMax { get; init; }
 
     private int _hp;
     public int Hp
     {
         get => _hp;
-        set => _hp = Math.Clamp(value, 0, HpInitial);
+        set => _hp = Math.Clamp(value, 0, HpMax);
     }
 
     public Character(
@@ -37,15 +38,15 @@ public class Character
         IChooseActionInterface actionChooser,
         Attack attack,
         int hpInitial,
-        GearItem? startingGearItem,
-        AttackModifier? defensiveAttackModifier
+        GearItem? startingGearItem = null,
+        AttackModifier? defensiveAttackModifier = null
     )
     {
         Name = name;
         Moves = new List<CharacterMove>() { CharacterMove.Nothing, CharacterMove.Attack };
         ActionChooser = actionChooser;
         Attack = attack;
-        HpInitial = hpInitial;
+        HpMax = hpInitial;
         Hp = hpInitial;
         EquippedGear = startingGearItem;
         if (startingGearItem != null)
@@ -121,7 +122,7 @@ public class Character
 
     public void TakeHealing(int healing)
     {
-        Hp = Math.Clamp(Hp + healing, 0, HpInitial);
+        Hp = Math.Clamp(Hp + healing, 0, HpMax);
     }
 
     public override string ToString()
@@ -160,5 +161,94 @@ public class Character
                 EquippedGear = g;
                 break;
         }
+    }
+}
+
+internal static class CharacterCreator
+{
+    internal static Character CreateHeroCharacter(
+        HeroCharacter character,
+        ActionChooserEnum actionChooserType
+    )
+    {
+        var actionChooser = ActionChooserCreator.CreateActionChooser(actionChooserType);
+
+        switch (character)
+        {
+            case HeroCharacter.TheTrueProgrammer:
+                string name = GetCharacterName(HeroCharacter.TheTrueProgrammer);
+                return new Character(
+                    name,
+                    actionChooser,
+                    AttackCreator.CreateAttack(AttackEnum.Punch),
+                    25,
+                    GearCreator.CreateGearItem(GearItemEnum.Sword),
+                    AttackModifierCreator.CreateDefensiveAttackModifier(
+                        DefensiveAttackModifierEnum.ObjectSight
+                    )
+                );
+            case HeroCharacter.VinFletcher:
+                return new Character(
+                    "VIN FLETCHER",
+                    actionChooser,
+                    AttackCreator.CreateAttack(AttackEnum.Punch),
+                    15,
+                    GearCreator.CreateGearItem(GearItemEnum.VinsBow)
+                );
+        }
+
+        throw new NotImplementedException("Unknown Hero enountered.");
+    }
+
+    internal static Character CreateMonsterCharacter(
+        MonsterCharacter character,
+        ActionChooserEnum actionChooserType
+    )
+    {
+        var actionChooser = ActionChooserCreator.CreateActionChooser(actionChooserType);
+
+        switch (character)
+        {
+            case MonsterCharacter.Skeleton:
+                return new Character(
+                    "SKELETON",
+                    actionChooser,
+                    AttackCreator.CreateAttack(AttackEnum.BoneCrunch),
+                    5
+                );
+            case MonsterCharacter.SkeletonWithDagger:
+                return new Character(
+                    "SKELETON",
+                    actionChooser,
+                    AttackCreator.CreateAttack(AttackEnum.BoneCrunch),
+                    5,
+                    GearCreator.CreateGearItem(GearItemEnum.Dagger)
+                );
+            case MonsterCharacter.StoneAmarok:
+                return new Character(
+                    "STONE AMAROK",
+                    actionChooser,
+                    AttackCreator.CreateAttack(AttackEnum.Bite),
+                    4,
+                    null,
+                    AttackModifierCreator.CreateDefensiveAttackModifier(
+                        DefensiveAttackModifierEnum.StoneArmor
+                    )
+                );
+            case MonsterCharacter.TheUncodedOne:
+                return new Character(
+                    "THE UNCODED ONE",
+                    actionChooser,
+                    AttackCreator.CreateAttack(AttackEnum.Unraveling),
+                    15
+                );
+        }
+
+        throw new NotImplementedException("Unknown Hero enountered.");
+    }
+
+    private static string GetCharacterName(HeroCharacter character)
+    {
+        return ConsoleHelpers.GetValidConsoleStringInput($"What is {character}'s name?");
     }
 }

@@ -42,7 +42,7 @@ public class AIAction : IChooseActionInterface
             return -1;
 
         // choosing potions has priority over gear
-        if (character.Hp < (float)character.HpInitial / 2)
+        if (character.Hp < (float)character.HpMax / 2)
         {
             int value = RandomNumberGenerator.Next(100);
             if (value <= 25)

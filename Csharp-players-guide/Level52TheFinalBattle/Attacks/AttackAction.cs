@@ -40,7 +40,7 @@ public class AttackAction
         );
         ConsoleHelpers.WriteLineWithColoredConsole(
             MessageType.Attack,
-            $"{Target.Name} is now at {Target.Hp}/{Target.HpInitial} HP."
+            $"{Target.Name} is now at {Target.Hp}/{Target.HpMax} HP."
         );
     }
 }

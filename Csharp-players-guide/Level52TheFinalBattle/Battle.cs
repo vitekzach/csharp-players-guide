@@ -139,7 +139,7 @@ public class Battle
 
             string heroRow = StringHelpers.GetTableRow(
                 $"  {partyCharacter}",
-                $"({partyCharacter.Hp}/{partyCharacter.HpInitial})",
+                $"({partyCharacter.Hp}/{partyCharacter.HpMax})",
                 TableStringHalfAlignment.Left,
                 InfoBoxWidth,
                 false
@@ -191,7 +191,7 @@ public class Battle
 
             string monsterRow = StringHelpers.GetTableRow(
                 $"  {partyCharacter}",
-                $"({partyCharacter.Hp}/{partyCharacter.HpInitial})",
+                $"({partyCharacter.Hp}/{partyCharacter.HpMax})",
                 TableStringHalfAlignment.Right,
                 InfoBoxWidth,
                 false

@@ -31,3 +31,21 @@ public class AttackModifier
         return attack;
     }
 }
+
+internal static class AttackModifierCreator
+{
+    internal static AttackModifier CreateDefensiveAttackModifier(
+        DefensiveAttackModifierEnum defensiveAttackModifier
+    )
+    {
+        switch (defensiveAttackModifier)
+        {
+            case DefensiveAttackModifierEnum.ObjectSight:
+                return new AttackModifier("Object Sight", -2, DamageType.Decoding);
+            case DefensiveAttackModifierEnum.StoneArmor:
+
+                return new AttackModifier("Stone Armor", -1, DamageType.Normal);
+        }
+        throw new NotImplementedException("Unkown defensive attack modifier encountered.");
+    }
+}
