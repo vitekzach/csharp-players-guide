@@ -13,22 +13,37 @@ public class Attack
     public DamageType DamageType { get; init; }
     private readonly Random randomNumberGenerator = new();
     private Func<int> GetDamage { get; init; }
+    private int _usageCount;
 
     public int? HitProbability { get; init; }
 
-    public Attack(string name, int maxDamage, DamageType attackType)
+    internal Attack(
+        string name,
+        int maxDamage,
+        DamageType attackType,
+        AttackDamageGenerationEnum damageGenerationMechanism
+    )
     {
+        _usageCount = 0;
         Name = name;
         MaxDamage = maxDamage;
         DamageType = attackType;
-        GetDamage = GetDamageRandomNumber;
+        GetDamage = damageGenerationMechanism switch
+        {
+            AttackDamageGenerationEnum.ProbabilityBased => GetDamageWithHitProbability,
+            AttackDamageGenerationEnum.RandomNumberBased => GetDamageRandomNumber,
+            AttackDamageGenerationEnum.UsageCountBased => GetDamageUsageTimeBased,
+            _
+                => throw new NotImplementedException(
+                    "Unkown damage generation mechanism encountered."
+                )
+        };
     }
 
     public Attack(string name, int maxDamage, DamageType attackType, int hitProbability)
-        : this(name, maxDamage, attackType)
+        : this(name, maxDamage, attackType, AttackDamageGenerationEnum.ProbabilityBased)
     {
         HitProbability = hitProbability;
-        GetDamage = GetDamageWithHitProbability;
     }
 
     private int GetDamageWithHitProbability()
@@ -40,6 +55,20 @@ public class Attack
     private int GetDamageRandomNumber()
     {
         return randomNumberGenerator.Next(MaxDamage + 1);
+    }
+
+    private int GetDamageUsageTimeBased()
+    {
+        _usageCount++;
+        Console.WriteLine($"Usage count: {_usageCount}");
+
+        bool used3 = _usageCount % 3 == 0;
+        bool used5 = _usageCount % 5 == 0;
+        if (used3 && used5)
+            return MaxDamage;
+        if (used3 || used5)
+            return 2;
+        return 1;
     }
 
     public AttackData GetAttackData(Character attacker, Character target)
@@ -68,7 +97,19 @@ internal static class AttackCreator
             case AttackEnum.Stab:
                 return new Attack("STAB", 1, DamageType.Normal, 100);
             case AttackEnum.Unraveling:
-                return new Attack("UNRAVELING ATTACK", 4, DamageType.Decoding);
+                return new Attack(
+                    "UNRAVELING ATTACK",
+                    4,
+                    DamageType.Decoding,
+                    AttackDamageGenerationEnum.RandomNumberBased
+                );
+            case AttackEnum.CannonShot:
+                return new Attack(
+                    "CANNON SHOT",
+                    5,
+                    DamageType.Normal,
+                    AttackDamageGenerationEnum.UsageCountBased
+                );
         }
         throw new NotImplementedException("Unknown attack type enoucntered.");
     }

@@ -195,6 +195,20 @@ internal static class CharacterCreator
                     15,
                     GearCreator.CreateGearItem(GearItemEnum.VinsBow)
                 );
+            case HeroCharacter.Mylara:
+                return new Character(
+                    "MYLARA",
+                    actionChooser,
+                    AttackCreator.CreateAttack(AttackEnum.CannonShot),
+                    15
+                );
+            case HeroCharacter.Skorin:
+                return new Character(
+                    "SKORIN",
+                    actionChooser,
+                    AttackCreator.CreateAttack(AttackEnum.CannonShot),
+                    15
+                );
         }
 
         throw new NotImplementedException("Unknown Hero enountered.");

@@ -51,7 +51,9 @@ public class Game
                     HeroCharacter.TheTrueProgrammer,
                     heroActionChooser
                 ),
-                CharacterCreator.CreateHeroCharacter(HeroCharacter.VinFletcher, heroActionChooser)
+                CharacterCreator.CreateHeroCharacter(HeroCharacter.VinFletcher, heroActionChooser),
+                CharacterCreator.CreateHeroCharacter(HeroCharacter.Mylara, heroActionChooser),
+                CharacterCreator.CreateHeroCharacter(HeroCharacter.Skorin, heroActionChooser)
             },
             PartyType.Heroes,
             new List<InventoryItem>()

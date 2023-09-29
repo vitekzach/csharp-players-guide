@@ -8,5 +8,6 @@ internal enum AttackEnum
     QuickShot,
     Slash,
     Stab,
-    Unraveling
+    Unraveling,
+    CannonShot
 }
