@@ -3,7 +3,9 @@ namespace Level52TheFinalBattle.Enums;
 internal enum DefensiveAttackModifierEnum
 {
     ObjectSight,
-    StoneArmor
+    StoneArmor,
+
+    BinaryHelm
 }
 
 internal enum OffensiveAttackModifierEnum

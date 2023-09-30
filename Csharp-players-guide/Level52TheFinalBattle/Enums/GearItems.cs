@@ -5,4 +5,6 @@ internal enum GearItemEnum
     Sword,
     VinsBow,
     Dagger,
+
+    BinaryHelm
 }

@@ -1,6 +1,7 @@
 using Level52TheFinalBattle.Characters;
 using Level52TheFinalBattle.Enums;
 using Level52TheFinalBattle.Helpers;
+using Level52TheFinalBattle.Items;
 using Level52TheFinalBattle.Records;
 
 namespace Level52TheFinalBattle.Attacks;
@@ -40,6 +41,12 @@ public class AttackAction
 
         if (_attacker.OffensiveAttackModifier != null)
             attackData = _attacker.OffensiveAttackModifier.ModifyAttack(attackData);
+
+        foreach (GearItem gearItem in _attacker.EquippedGear)
+        {
+            if (gearItem.OffensiveAttackModifier != null)
+                attackData = gearItem.OffensiveAttackModifier.ModifyAttack(attackData);
+        }
 
         Target.GetAttacked(attackData);
 

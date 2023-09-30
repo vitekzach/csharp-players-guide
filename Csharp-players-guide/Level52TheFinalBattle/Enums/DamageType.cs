@@ -4,5 +4,6 @@ public enum DamageType
 {
     NoDamage,
     Normal,
-    Decoding
+    Decoding,
+    All
 }

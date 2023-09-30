@@ -99,6 +99,12 @@ public class Character
         {
             attackData = DefensiveAttackModifier.ModifyAttack(attackData);
         }
+        foreach (GearItem gearItem in EquippedGear)
+        {
+            if (gearItem.DefensiveAttackModifier != null)
+                attackData = gearItem.DefensiveAttackModifier.ModifyAttack(attackData);
+        }
+
         Hp -= attackData.Damage;
         if (Hp == 0)
         {
@@ -153,7 +159,10 @@ public class Character
             MainAttack
         };
         foreach (GearItem gearItem in EquippedGear)
-            if (gearItem.RoundsToActivate < 1)
+            if (
+                gearItem.RoundsToActivate < 1
+                && gearItem.GearAttack.DamageType != DamageType.NoDamage
+            )
                 ListOfMoves.Add(gearItem.GearAttack);
         return ListOfMoves;
     }
@@ -177,7 +186,11 @@ internal static class CharacterCreator
                     actionChooser,
                     AttackCreator.CreateAttack(AttackEnum.Punch),
                     25,
-                    new List<GearItem> { GearCreator.CreateGearItem(GearItemEnum.Sword) },
+                    new List<GearItem>
+                    {
+                        GearCreator.CreateGearItem(GearItemEnum.Sword),
+                        GearCreator.CreateGearItem(GearItemEnum.BinaryHelm)
+                    },
                     AttackModifierCreator.CreateDefensiveAttackModifier(
                         DefensiveAttackModifierEnum.ObjectSight
                     ),
