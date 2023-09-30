@@ -14,10 +14,23 @@ public class Party
     public PartyType Type { get; init; }
     public List<InventoryItem> Inventory { get; private set; }
 
-    public Party(List<Character> members, PartyType type, List<InventoryItem> inventory)
+    public int GainedXP { get; set; }
+
+    public Party(
+        List<Character> members,
+        PartyType type,
+        List<InventoryItem> inventory,
+        int initialXP = 0
+    )
     {
         Members = members;
         Type = type;
         Inventory = inventory;
+        GainedXP = initialXP;
+    }
+
+    public override string ToString()
+    {
+        return $"{Type} ({GainedXP} XP)";
     }
 }

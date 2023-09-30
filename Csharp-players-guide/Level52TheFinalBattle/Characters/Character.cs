@@ -2,6 +2,7 @@ using System.Diagnostics.Tracing;
 using System.Security.AccessControl;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
+using System.Xml.XPath;
 using Level52TheFinalBattle.ActionChoosers;
 using Level52TheFinalBattle.Attacks;
 using Level52TheFinalBattle.Enums;
@@ -13,7 +14,7 @@ namespace Level52TheFinalBattle.Characters;
 
 public class Character
 {
-    public event Action<Character>? CharacterDied;
+    public event Action<Character, Character>? CharacterDied;
     public string Name { get; init; }
     public List<Attack> Moves { get; private set; }
     private IChooseActionInterface ActionChooser { get; init; }
@@ -27,6 +28,8 @@ public class Character
 
     public int HpMax { get; init; }
 
+    public int XP { get; init; }
+
     private int _hp;
     public int Hp
     {
@@ -39,6 +42,7 @@ public class Character
         IChooseActionInterface actionChooser,
         Attack attack,
         int hpInitial,
+        int xP,
         List<GearItem>? startingGearItem = null,
         AttackModifier? defensiveAttackModifier = null,
         AttackModifier? offensiveAttackModifier = null
@@ -49,6 +53,7 @@ public class Character
         MainAttack = attack;
         HpMax = hpInitial;
         Hp = hpInitial;
+        XP = xP;
         EquippedGear = startingGearItem ?? new List<GearItem>();
         if (defensiveAttackModifier != null)
             DefensiveAttackModifier = defensiveAttackModifier;
@@ -108,7 +113,7 @@ public class Character
         Hp -= attackData.Damage;
         if (Hp == 0)
         {
-            CharacterDied?.Invoke(this);
+            CharacterDied?.Invoke(this, attackData.attacker);
         }
     }
 
@@ -186,6 +191,7 @@ internal static class CharacterCreator
                     actionChooser,
                     AttackCreator.CreateAttack(AttackEnum.Punch),
                     25,
+                    50,
                     new List<GearItem>
                     {
                         GearCreator.CreateGearItem(GearItemEnum.Sword),
@@ -204,6 +210,7 @@ internal static class CharacterCreator
                     actionChooser,
                     AttackCreator.CreateAttack(AttackEnum.Punch),
                     15,
+                    25,
                     new List<GearItem> { GearCreator.CreateGearItem(GearItemEnum.VinsBow) }
                 );
             case HeroCharacter.Mylara:
@@ -211,14 +218,16 @@ internal static class CharacterCreator
                     "MYLARA",
                     actionChooser,
                     AttackCreator.CreateAttack(AttackEnum.CannonShot),
-                    15
+                    15,
+                    25
                 );
             case HeroCharacter.Skorin:
                 return new Character(
                     "SKORIN",
                     actionChooser,
                     AttackCreator.CreateAttack(AttackEnum.CannonShot),
-                    15
+                    15,
+                    25
                 );
         }
 
@@ -239,7 +248,8 @@ internal static class CharacterCreator
                     "SKELETON",
                     actionChooser,
                     AttackCreator.CreateAttack(AttackEnum.BoneCrunch),
-                    5
+                    5,
+                    1
                 );
             case MonsterCharacter.SkeletonWithDagger:
                 return new Character(
@@ -247,6 +257,7 @@ internal static class CharacterCreator
                     actionChooser,
                     AttackCreator.CreateAttack(AttackEnum.BoneCrunch),
                     5,
+                    3,
                     new List<GearItem> { GearCreator.CreateGearItem(GearItemEnum.Dagger) }
                 );
             case MonsterCharacter.StoneAmarok:
@@ -255,6 +266,7 @@ internal static class CharacterCreator
                     actionChooser,
                     AttackCreator.CreateAttack(AttackEnum.Bite),
                     4,
+                    5,
                     null,
                     AttackModifierCreator.CreateDefensiveAttackModifier(
                         DefensiveAttackModifierEnum.StoneArmor
@@ -265,7 +277,8 @@ internal static class CharacterCreator
                     "THE UNCODED ONE",
                     actionChooser,
                     AttackCreator.CreateAttack(AttackEnum.Unraveling),
-                    15
+                    15,
+                    25
                 );
         }
 

@@ -77,26 +77,27 @@ public class Battle
         }
     }
 
-    public void OnCharacterDied(Character character)
+    public void OnCharacterDied(Character deadCharacter, Character attacker)
     {
-        character.CharacterDied -= OnCharacterDied;
-        Party characterParty = GetPartyFor(character);
-        characterParty.Members.Remove(character);
+        deadCharacter.CharacterDied -= OnCharacterDied;
+        Party characterParty = GetPartyFor(deadCharacter);
+        Party enemyParty = GetEnemyPartyFor(deadCharacter);
+        enemyParty.GainedXP += deadCharacter.XP;
+        characterParty.Members.Remove(deadCharacter);
         ConsoleHelpers.WriteLineWithColoredConsole(
             MessageType.Attack,
-            $"{character.Name} has been defeated!"
+            $"{deadCharacter.Name} has been defeated! {enemyParty.Type} gained {deadCharacter.XP} XP."
         );
-        if (character.EquippedGear.Any())
+        if (deadCharacter.EquippedGear.Any())
         {
-            var gearNames = character.EquippedGear.Select(x => x.Name);
+            var gearNames = deadCharacter.EquippedGear.Select(x => x.Name);
             string gearNamesJoined = string.Join(',', gearNames);
             ConsoleHelpers.WriteLineWithColoredConsole(
                 MessageType.Info,
-                $"{character.Name}'s gear ({gearNamesJoined}) has been acquired."
+                $"{deadCharacter.Name}'s gear ({gearNamesJoined}) has been acquired."
             );
-            Party enemyParty = GetEnemyPartyFor(character);
-            enemyParty.Inventory.AddRange(character.EquippedGear);
-            character.EquippedGear.Clear();
+            enemyParty.Inventory.AddRange(deadCharacter.EquippedGear);
+            deadCharacter.EquippedGear.Clear();
         }
     }
 
@@ -122,7 +123,7 @@ public class Battle
         );
 
         string heroesHeader = StringHelpers.GetTableRow(
-            $"{HeroesParty.Type}",
+            $"{HeroesParty}",
             "(HP)",
             TableStringHalfAlignment.Left,
             InfoBoxWidth,
@@ -174,7 +175,7 @@ public class Battle
         ConsoleHelpers.WriteLineWithColoredConsole(MessageType.Info, middleRow);
 
         string monsterHeader = StringHelpers.GetTableRow(
-            $"{MonstersParty.Type}",
+            $"{MonstersParty}",
             "(HP)",
             TableStringHalfAlignment.Right,
             InfoBoxWidth,
