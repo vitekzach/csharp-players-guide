@@ -252,6 +252,7 @@ public class Battle
         return false;
     }
 
+
     private bool CheckForBattleEnd(Character character, Party party)
     {
         Party enemyParty = GetEnemyPartyFor(character);

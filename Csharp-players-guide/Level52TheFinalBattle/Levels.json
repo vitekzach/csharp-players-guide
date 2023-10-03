@@ -1,0 +1,49 @@
+{
+    "heroParty": [
+        {
+            "heroes": [
+                "TheTrueProgrammer",
+                "VinFletcher",
+                "Mylara",
+                "Skorin"
+            ],
+            "inventory": [
+                "BigPotion",
+                "BigPotion",
+                "SimulasSoup"
+            ]
+        }
+    ],
+    "monsterParties": [
+        {
+            "heroes": [
+                "SkeletonWithDagger"
+            ],
+            "inventory": [
+                "BigPotion"
+            ]
+        },
+        {
+            "heroes": [
+                "Skeleton",
+                "Skeleton"
+            ],
+            "inventory": [
+                "BigPotion"
+            ]
+        },
+        {
+            "heroes": [
+                "StoneAmarok",
+                "StoneAmarok"
+            ],
+            "inventory": []
+        },
+        {
+            "heroes": [
+                "TheUncodedOne"
+            ],
+            "inventory": []
+        }
+    ]
+}
