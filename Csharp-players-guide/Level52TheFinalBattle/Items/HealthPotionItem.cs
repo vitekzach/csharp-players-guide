@@ -35,14 +35,16 @@ public class HealthPotionItem : InventoryItem
     }
 }
 
-internal static class HealthPotionCreator{
-  internal static HealthPotionItem CreateHealthPotion(HealingItemEnum healingItem){
-    return  healingItem switch {
-      HealingItemEnum.SmallPotion => new HealthPotionItem(HealingItemEnum.SmallPotion),
-      HealingItemEnum.BigPotion => new HealthPotionItem(HealingItemEnum.BigPotion),
-      HealingItemEnum.SimulasSoup => new HealthPotionItem(HealingItemEnum.SimulasSoup),
-      _ => throw new NotImplementedException("Unkown healing item type encountered.")
-
-    };
-  }
+internal static class HealthPotionCreator
+{
+    internal static HealthPotionItem CreateHealthPotion(HealingItemEnum healingItem)
+    {
+        return healingItem switch
+        {
+            HealingItemEnum.SmallPotion => new HealthPotionItem(HealingItemEnum.SmallPotion),
+            HealingItemEnum.BigPotion => new HealthPotionItem(HealingItemEnum.BigPotion),
+            HealingItemEnum.SimulasSoup => new HealthPotionItem(HealingItemEnum.SimulasSoup),
+            _ => throw new NotImplementedException("Unkown healing item type encountered.")
+        };
+    }
 }

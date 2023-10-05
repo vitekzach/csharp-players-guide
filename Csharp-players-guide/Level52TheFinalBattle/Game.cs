@@ -36,7 +36,11 @@ public class Game
         }
 
         Console.WriteLine("Before parser");
-        var levelProvider = new GameJsonParser("Levels.json", heroActionChooser, monsterActionChooser);
+        var levelProvider = new GameJsonParser(
+            "Levels.json",
+            heroActionChooser,
+            monsterActionChooser
+        );
 
         Battles = levelProvider.GetBattles(heroActionChooser, monsterActionChooser);
         Console.WriteLine(Battles.Count);
@@ -72,7 +76,7 @@ public class Game
     }
 }
 
-internal class GameJsonParser: ILevelProvider
+internal class GameJsonParser : ILevelProvider
 {
     string _jsonPath;
     List<Dictionary<string, List<string>>>? _heroParty;
@@ -81,7 +85,11 @@ internal class GameJsonParser: ILevelProvider
     ActionChooserEnum _heroActionChooser;
     ActionChooserEnum _monsterActionChooser;
 
-    internal GameJsonParser(string jsonLevelsPath, ActionChooserEnum heroActionChooser, ActionChooserEnum monsterActionChooser )
+    internal GameJsonParser(
+        string jsonLevelsPath,
+        ActionChooserEnum heroActionChooser,
+        ActionChooserEnum monsterActionChooser
+    )
     {
         _jsonPath = jsonLevelsPath;
         _heroActionChooser = heroActionChooser;
@@ -89,24 +97,25 @@ internal class GameJsonParser: ILevelProvider
     }
 
     public List<Battle> GetBattles(
-    ActionChooserEnum heroActionChooser,
-    ActionChooserEnum monsterActionChooser
-        )
+        ActionChooserEnum heroActionChooser,
+        ActionChooserEnum monsterActionChooser
+    )
     {
-      DeserializeJsonString(LoadJsonFile());
-      GetParties();
-      ValidatePartyCount();
-      var battleList = new List<Battle>(){};
-      foreach(Dictionary<string, List<string>> party in _heroParty!) 
-        ValidateSingleParty(party);
-      var heroParty = GetHeroPartyFromPartyDict(_heroParty[0]);
-      var monsterParties = new List<Party>(){};
-      foreach(Dictionary<string, List<string>> party in _monsterParties!) {
-        ValidateSingleParty(party);
-        battleList.Add(new Battle(heroParty, GetMonsterPartyFromPartyDict(party)));
-      }
+        DeserializeJsonString(LoadJsonFile());
+        GetParties();
+        ValidatePartyCount();
+        var battleList = new List<Battle>() { };
+        foreach (Dictionary<string, List<string>> party in _heroParty!)
+            ValidateSingleParty(party);
+        var heroParty = GetHeroPartyFromPartyDict(_heroParty[0]);
+        var monsterParties = new List<Party>() { };
+        foreach (Dictionary<string, List<string>> party in _monsterParties!)
+        {
+            ValidateSingleParty(party);
+            battleList.Add(new Battle(heroParty, GetMonsterPartyFromPartyDict(party)));
+        }
 
-      return battleList;
+        return battleList;
     }
 
     private string LoadJsonFile()
@@ -117,89 +126,133 @@ internal class GameJsonParser: ILevelProvider
         return File.ReadAllText(_jsonPath);
     }
 
-    private void DeserializeJsonString(string jsonString) {
-      _levels = JsonSerializer.Deserialize<Dictionary<string, List<Dictionary<string, List<string>>>>>(jsonString)!;
+    private void DeserializeJsonString(string jsonString)
+    {
+        _levels = JsonSerializer.Deserialize<
+            Dictionary<string, List<Dictionary<string, List<string>>>>
+        >(jsonString)!;
     }
 
-    private void GetParties(){
-      if (_levels!.TryGetValue("heroParty", out _heroParty) && _levels.TryGetValue("monsterParties", out _monsterParties)){}
-      else{throw new FormatException("Your levels file has to contain heroParty and monsterParties keys.");}
+    private void GetParties()
+    {
+        if (
+            _levels!.TryGetValue("heroParty", out _heroParty)
+            && _levels.TryGetValue("monsterParties", out _monsterParties)
+        ) { }
+        else
+        {
+            throw new FormatException(
+                "Your levels file has to contain heroParty and monsterParties keys."
+            );
+        }
     }
-  
+
     // private List<Character> ParseParty<CharacterEnum>(){
     // }
 
-    private void ValidatePartyCount(){
-      if (_heroParty!.Count != 1)
-          throw new FormatException("You have to specify exactly one hero party.");
-      if (_monsterParties!.Count < 1)
-          throw new FormatException("You have to specify at least one monster party.");
+    private void ValidatePartyCount()
+    {
+        if (_heroParty!.Count != 1)
+            throw new FormatException("You have to specify exactly one hero party.");
+        if (_monsterParties!.Count < 1)
+            throw new FormatException("You have to specify at least one monster party.");
     }
 
-    private void ValidateSingleParty(Dictionary<string, List<string>> party){
-      if (party.TryGetValue("heroes", out List<string> heroes) && party.ContainsKey("inventory")){
-        if (heroes.Count == 0)
-          throw new FormatException("Each party needs to have at least one hero.");
-      }
-      else{
-        throw new FormatException("Your parties need to contain keys heroes and inventory.");
-      }
+    private void ValidateSingleParty(Dictionary<string, List<string>> party)
+    {
+        if (party.TryGetValue("heroes", out List<string> heroes) && party.ContainsKey("inventory"))
+        {
+            if (heroes.Count == 0)
+                throw new FormatException("Each party needs to have at least one hero.");
+        }
+        else
+        {
+            throw new FormatException("Your parties need to contain keys heroes and inventory.");
+        }
     }
 
-    private Party GetHeroPartyFromPartyDict(Dictionary<string, List<string>> heroParty){
-      var characterList = new List<Character>(){};
-      foreach(string character in heroParty.GetValueOrDefault("heroes")!){
-        if (!Enum.TryParse<HeroCharacter>(character,false,  out HeroCharacter characterParsed))
-          throw new FormatException($"Unknown hero {characterParsed}.");
-        characterList.Add(CharacterCreator.CreateHeroCharacter(characterParsed, _heroActionChooser));
-      }
+    private Party GetHeroPartyFromPartyDict(Dictionary<string, List<string>> heroParty)
+    {
+        var characterList = new List<Character>() { };
+        foreach (string character in heroParty.GetValueOrDefault("heroes")!)
+        {
+            if (!Enum.TryParse<HeroCharacter>(character, false, out HeroCharacter characterParsed))
+                throw new FormatException($"Unknown hero {characterParsed}.");
+            characterList.Add(
+                CharacterCreator.CreateHeroCharacter(characterParsed, _heroActionChooser)
+            );
+        }
 
-      var inventory = new List<InventoryItem>();
-      foreach(string inventoryItem in heroParty.GetValueOrDefault("inventory")!){
-        if (Enum.TryParse<HealingItemEnum>(inventoryItem, out HealingItemEnum healingItem)){
-          inventory.Add(HealthPotionCreator.CreateHealthPotion(healingItem));
-          continue;}
-        if (Enum.TryParse<GearItemEnum>(inventoryItem, out GearItemEnum gearItem)){
-          inventory.Add(GearCreator.CreateGearItem(gearItem));
-          continue;}
-        throw new FormatException($"Unkown inventory item {inventoryItem}.");
-          }
-      return new Party(characterList, PartyType.Heroes, inventory);
+        var inventory = new List<InventoryItem>();
+        foreach (string inventoryItem in heroParty.GetValueOrDefault("inventory")!)
+        {
+            if (Enum.TryParse<HealingItemEnum>(inventoryItem, out HealingItemEnum healingItem))
+            {
+                inventory.Add(HealthPotionCreator.CreateHealthPotion(healingItem));
+                continue;
+            }
+            if (Enum.TryParse<GearItemEnum>(inventoryItem, out GearItemEnum gearItem))
+            {
+                inventory.Add(GearCreator.CreateGearItem(gearItem));
+                continue;
+            }
+            throw new FormatException($"Unkown inventory item {inventoryItem}.");
+        }
+        return new Party(characterList, PartyType.Heroes, inventory);
     }
 
-    private Party GetMonsterPartyFromPartyDict(Dictionary<string, List<string>> monsterParty){
-      var characterList = new List<Character>(){};
-      foreach(string character in monsterParty.GetValueOrDefault("heroes")!){
-        if (!Enum.TryParse<MonsterCharacter>(character,false,  out MonsterCharacter characterParsed))
-          throw new FormatException($"Unknown hero {characterParsed}.");
-        characterList.Add(CharacterCreator.CreateMonsterCharacter(characterParsed, _monsterActionChooser));
-      }
+    private Party GetMonsterPartyFromPartyDict(Dictionary<string, List<string>> monsterParty)
+    {
+        var characterList = new List<Character>() { };
+        foreach (string character in monsterParty.GetValueOrDefault("heroes")!)
+        {
+            if (
+                !Enum.TryParse<MonsterCharacter>(
+                    character,
+                    false,
+                    out MonsterCharacter characterParsed
+                )
+            )
+                throw new FormatException($"Unknown hero {characterParsed}.");
+            characterList.Add(
+                CharacterCreator.CreateMonsterCharacter(characterParsed, _monsterActionChooser)
+            );
+        }
 
-      var inventory = new List<InventoryItem>();
-      foreach(string inventoryItem in monsterParty.GetValueOrDefault("inventory")!){
-        if (Enum.TryParse<HealingItemEnum>(inventoryItem, out HealingItemEnum healingItem)){
-          inventory.Add(HealthPotionCreator.CreateHealthPotion(healingItem));
-          continue;}
-        if (Enum.TryParse<GearItemEnum>(inventoryItem, out GearItemEnum gearItem)){
-          inventory.Add(GearCreator.CreateGearItem(gearItem));
-          continue;}
-        throw new FormatException($"Unkown inventory item {inventoryItem}.");
-          }
-      return new Party(characterList, PartyType.Monsters, inventory);
+        var inventory = new List<InventoryItem>();
+        foreach (string inventoryItem in monsterParty.GetValueOrDefault("inventory")!)
+        {
+            if (Enum.TryParse<HealingItemEnum>(inventoryItem, out HealingItemEnum healingItem))
+            {
+                inventory.Add(HealthPotionCreator.CreateHealthPotion(healingItem));
+                continue;
+            }
+            if (Enum.TryParse<GearItemEnum>(inventoryItem, out GearItemEnum gearItem))
+            {
+                inventory.Add(GearCreator.CreateGearItem(gearItem));
+                continue;
+            }
+            throw new FormatException($"Unkown inventory item {inventoryItem}.");
+        }
+        return new Party(characterList, PartyType.Monsters, inventory);
     }
 }
 
-internal interface ILevelProvider{
-  internal List<Battle> GetBattles(ActionChooserEnum heroActionChooser,
+internal interface ILevelProvider
+{
+    internal List<Battle> GetBattles(
+        ActionChooserEnum heroActionChooser,
         ActionChooserEnum monsterActionChooser
-);
+    );
 }
 
-internal class DefaultLevelProvider:ILevelProvider{
-  public List<Battle> GetBattles(
-      ActionChooserEnum heroActionChooser,
+internal class DefaultLevelProvider : ILevelProvider
+{
+    public List<Battle> GetBattles(
+        ActionChooserEnum heroActionChooser,
         ActionChooserEnum monsterActionChooser
-){
+    )
+    {
         Party heroesParty = new Party(
             new List<Character>()
             {
@@ -285,5 +338,5 @@ internal class DefaultLevelProvider:ILevelProvider{
             new Battle(heroesParty, monstersParty3),
             new Battle(heroesParty, uncodedOnesParty)
         };
-  }
+    }
 }
