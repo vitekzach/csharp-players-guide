@@ -35,7 +35,6 @@ public class Game
                 throw new NotImplementedException("Unkown game mode encountered.");
         }
 
-        Console.WriteLine("Before parser");
         var levelProvider = new GameJsonParser(
             "Levels.json",
             heroActionChooser,

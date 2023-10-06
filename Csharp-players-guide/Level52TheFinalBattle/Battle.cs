@@ -1,3 +1,4 @@
+using System.Globalization;
 using Level52TheFinalBattle.Characters;
 using Level52TheFinalBattle.Enums;
 using Level52TheFinalBattle.Helpers;
@@ -12,10 +13,13 @@ public class Battle
 
     private int InfoBoxWidth { get; } = 100;
 
+    private RoundTablePrinter _tablePrinter;
+
     public Battle(Party heroes, Party monsters)
     {
         HeroesParty = heroes;
         MonstersParty = monsters;
+        _tablePrinter = new RoundTablePrinter();
     }
 
     private void SubscribeToDeaths()
@@ -242,7 +246,8 @@ public class Battle
                 MessageType.Info,
                 $"It is {character.Name}'s turn..."
             );
-            PrintCharacterTurnInfo(character);
+            _tablePrinter.PrintInformationTable(this, character);
+            // PrintCharacterTurnInfo(character);
 
             character.TakeTurn(this);
             ConsoleHelpers.WriteLineWithColoredConsole(MessageType.Info, "");
@@ -294,5 +299,384 @@ public class Battle
             return MonstersParty;
         else
             return HeroesParty;
+    }
+}
+
+internal class RoundTablePrinter
+{
+    const ConsoleColor _backgroundColor = ConsoleColor.Black;
+    const ConsoleColor _heroColor = ConsoleColor.White;
+    private readonly ConsoleColor _tableBorderColor = ConsoleColor.Blue;
+    private readonly char _healthSymbol = '▉';
+
+    private readonly int _tableWidth = 100;
+    private readonly int _ListMemberPadding = 2;
+
+    private readonly string _verticalOutsideBorder = "║";
+    private readonly char _horizontalOutsideBorder = '═';
+    private readonly string _topLeftCorner = "╔";
+    private readonly string _topRightCorner = "╗";
+    private readonly string _bottomLeftCorner = "╚";
+    private readonly string _bottomRightCorner = "╝";
+    private readonly string _dividerLeft = "╟";
+    private readonly char _divider = '━';
+    private readonly string _dividerRight = "╢";
+
+    // private readonly string _verticalOutsideBorder = "║";
+
+    internal void PrintInformationTable(Battle battle, Character character)
+    {
+        PrintTopRow();
+        PrintParty(battle.HeroesParty, character);
+        PrintMiddleRow();
+        PrintParty(battle.MonstersParty, character);
+        PrintBottomRow();
+    }
+
+    private void PrintParty(Party party, Character character)
+    {
+        PrintPartyHeader(party);
+        foreach (Character characterToPrint in party.Members)
+        {
+            var charName = GetCharacterLine(characterToPrint, party.Type, character);
+            PrintLine(charName);
+        }
+        PrintPartyInventoryHeader(party);
+        foreach (InventoryItem inventoryItem in party.Inventory)
+        {
+            var inventoryLine = GetInventoryLine(inventoryItem, party.Type);
+            PrintLine(inventoryLine);
+        }
+    }
+
+    private void PrintPartyHeader(Party party)
+    {
+        var backgroundColor = ConsoleColor.Black;
+        var header = new List<ConsoleText>()
+        {
+            new ConsoleText(_verticalOutsideBorder, _tableBorderColor, ConsoleColor.Black),
+            new ConsoleText(
+                $"{party.Type.ToString()} ({party.GainedXP} XP)",
+                _tableBorderColor,
+                _backgroundColor
+            ),
+            new ConsoleText("(HP)", _tableBorderColor, _backgroundColor),
+        };
+
+        int insertPaddingIndex;
+        if (party.Type == PartyType.Heroes)
+            insertPaddingIndex = header.Count + 1;
+        else
+            insertPaddingIndex = 1;
+
+        PadTextList(
+            header,
+            header.Count - 1,
+            _tableWidth / 2,
+            '─',
+            foregroundColor: _tableBorderColor
+        );
+        header.Insert(
+            header.Count,
+            new ConsoleText(_verticalOutsideBorder, _tableBorderColor, ConsoleColor.Black)
+        );
+        PadTextList(
+            header,
+            insertPaddingIndex,
+            _tableWidth,
+            ' ',
+            foregroundColor: _tableBorderColor
+        );
+        PrintLine(header);
+    }
+
+    private void PrintPartyInventoryHeader(Party party)
+    {
+        var header = new List<ConsoleText>()
+        {
+            new ConsoleText(_verticalOutsideBorder, _tableBorderColor, ConsoleColor.Black),
+            new ConsoleText(
+                $"{party.Type.ToString()} inventory",
+                _tableBorderColor,
+                _backgroundColor
+            ),
+        };
+
+        int insertPaddingIndex;
+        if (party.Type == PartyType.Heroes)
+            insertPaddingIndex = header.Count + 1;
+        else
+            insertPaddingIndex = 1;
+
+        PadTextList(header, header.Count, _tableWidth / 2, '─', foregroundColor: _tableBorderColor);
+        header.Insert(
+            header.Count,
+            new ConsoleText(_verticalOutsideBorder, _tableBorderColor, ConsoleColor.Black)
+        );
+        PadTextList(
+            header,
+            insertPaddingIndex,
+            _tableWidth,
+            ' ',
+            foregroundColor: _tableBorderColor
+        );
+        PrintLine(header);
+    }
+
+    private void PrintLine(List<ConsoleText> texts)
+    {
+        foreach (ConsoleText text in texts)
+        {
+            WriteConsoleText(text);
+        }
+        Console.WriteLine();
+    }
+
+    private List<ConsoleText> GetCharacterLine(
+        Character character,
+        PartyType partyType,
+        Character charactersTurn
+    )
+    {
+        ConsoleColor backgroundColor = _backgroundColor;
+        ConsoleColor foregroundColor = _heroColor;
+
+        if (character == charactersTurn)
+        {
+            backgroundColor = ConsoleColor.DarkGreen;
+            foregroundColor = ConsoleColor.Black;
+        }
+
+        var characterLine = new List<ConsoleText>()
+        {
+            new ConsoleText(_verticalOutsideBorder, _tableBorderColor, ConsoleColor.Black)
+        };
+        List<ConsoleText> characterName = GetCharacterName(
+            character,
+            backgroundColor: backgroundColor,
+            foregroundColor: foregroundColor
+        );
+
+        List<ConsoleText> characterHealth = GetCharacterHealth(
+            character,
+            partyType,
+            backgroundColor: backgroundColor,
+            foregroundColor: foregroundColor
+        );
+        int insertPaddingIndex;
+
+        if (partyType == PartyType.Heroes)
+        {
+            characterLine.AddRange(characterName);
+            characterLine.AddRange(characterHealth);
+            insertPaddingIndex = characterLine.Count - 3;
+        }
+        else //if (partyType == PartyType.Monsters)
+        {
+            characterLine.AddRange(characterHealth);
+            characterLine.AddRange(characterName);
+            insertPaddingIndex = 4;
+        }
+
+        characterLine.Add(
+            new ConsoleText(_verticalOutsideBorder, _tableBorderColor, ConsoleColor.Black)
+        );
+
+        PadTextList(
+            characterLine,
+            insertPaddingIndex,
+            _tableWidth,
+            backgroundColor: backgroundColor,
+            foregroundColor: foregroundColor
+        );
+        return characterLine;
+    }
+
+    private List<ConsoleText> GetInventoryLine(InventoryItem item, PartyType partyType)
+    {
+        int insertPaddingIndex;
+        var inventoryLine = new List<ConsoleText>()
+        {
+            new ConsoleText(_verticalOutsideBorder, _tableBorderColor, ConsoleColor.Black),
+            new ConsoleText(
+                $"{new string(' ', _ListMemberPadding)}{item.ToString()}",
+                _heroColor,
+                _backgroundColor
+            ),
+            new ConsoleText(_verticalOutsideBorder, _tableBorderColor, ConsoleColor.Black),
+        };
+
+        if (partyType == PartyType.Heroes)
+        {
+            insertPaddingIndex = inventoryLine.Count - 1;
+        }
+        else //if (partyType == PartyType.Monsters)
+        {
+            PadTextList(inventoryLine, 2, _tableWidth / 2, ' ');
+            insertPaddingIndex = 1;
+        }
+
+        PadTextList(inventoryLine, insertPaddingIndex, _tableWidth);
+        return inventoryLine;
+    }
+
+    private List<ConsoleText> GetCharacterName(
+        Character character,
+        ConsoleColor backgroundColor = _backgroundColor,
+        ConsoleColor foregroundColor = _backgroundColor
+    )
+    {
+        var heroName = new List<ConsoleText>();
+        heroName.Add(
+            new ConsoleText(new string(' ', _ListMemberPadding), foregroundColor, backgroundColor)
+        );
+        string warningSymbols = "[!]";
+        if (character.Hp <= character.HpMax / 4)
+            heroName.Add(new ConsoleText(warningSymbols, ConsoleColor.Yellow, backgroundColor));
+        if (character.Hp <= character.HpMax / 10)
+            heroName.Add(new ConsoleText(warningSymbols, ConsoleColor.Red, backgroundColor));
+        heroName.Add(new ConsoleText(character.ToString(), foregroundColor, backgroundColor));
+        heroName.Add(
+            new ConsoleText($"({character.Hp}/{character.HpMax})", foregroundColor, backgroundColor)
+        );
+        // PrintLine(heroName);
+        PadTextList(
+            heroName,
+            heroName.Count - 1,
+            (_tableWidth - 1) / 2,
+            foregroundColor: foregroundColor,
+            backgroundColor: backgroundColor
+        );
+        // PrintLine(heroName);
+        return heroName;
+    }
+
+    private List<ConsoleText> GetCharacterHealth(
+        Character character,
+        PartyType partyType,
+        ConsoleColor backgroundColor = _backgroundColor,
+        ConsoleColor foregroundColor = _backgroundColor
+    )
+    {
+        var heroHealth = new List<ConsoleText>();
+        string lostHp = new string(_healthSymbol, character.HpMax - character.Hp);
+        string currentHp = new string(_healthSymbol, character.Hp);
+        if (partyType == PartyType.Heroes)
+        {
+            heroHealth.Add(new ConsoleText(currentHp, ConsoleColor.Green, backgroundColor));
+            heroHealth.Add(new ConsoleText(lostHp, ConsoleColor.Red, backgroundColor));
+        }
+        else
+        {
+            heroHealth.Add(new ConsoleText(lostHp, ConsoleColor.Red, backgroundColor));
+            heroHealth.Add(new ConsoleText(currentHp, ConsoleColor.Green, backgroundColor));
+        }
+        int insertPaddingIndex;
+        if (partyType == PartyType.Heroes)
+            insertPaddingIndex = heroHealth.Count;
+        else
+            insertPaddingIndex = 0;
+        PadTextList(
+            heroHealth,
+            insertPaddingIndex,
+            (_tableWidth - 10) / 2,
+            backgroundColor: backgroundColor,
+            foregroundColor: foregroundColor
+        );
+        return heroHealth;
+    }
+
+    private void WriteConsoleText(ConsoleText text)
+    {
+        Console.BackgroundColor = text.BackGroundColor;
+        Console.ForegroundColor = text.ForegroundColor;
+        Console.Write(text.Text);
+        Console.ResetColor();
+    }
+
+    private void PadTextList(
+        List<ConsoleText> texts,
+        int insertPaddingIndex,
+        int desiredWidth,
+        char paddingChar = ' ',
+        ConsoleColor backgroundColor = _backgroundColor,
+        ConsoleColor foregroundColor = _backgroundColor
+    )
+    {
+        var padding = new ConsoleText(
+            new string(paddingChar, Math.Max(0, desiredWidth - GetLengthOfConsoleTexts(texts))),
+            foregroundColor,
+            backgroundColor
+        );
+
+        texts.Insert(insertPaddingIndex, padding);
+    }
+
+    private int GetLengthOfConsoleTexts(List<ConsoleText> texts)
+    {
+        return texts.Sum(x => x.Text.Length);
+    }
+
+    private void PrintTopRow()
+    {
+        string title = " Battle ";
+        int paddingLeft = (_tableWidth - title.Length - 2) / 2;
+        int paddingRight = (paddingLeft % 2 != 0) ? paddingLeft : paddingLeft - 1;
+        var tableTitle = new List<ConsoleText>()
+        {
+            new ConsoleText(_topLeftCorner, _tableBorderColor, ConsoleColor.Black),
+            new ConsoleText(
+                new string(_horizontalOutsideBorder, paddingLeft),
+                _tableBorderColor,
+                ConsoleColor.Black
+            ),
+            new ConsoleText(title, _tableBorderColor, ConsoleColor.Black),
+            new ConsoleText(
+                new string(_horizontalOutsideBorder, paddingRight),
+                _tableBorderColor,
+                ConsoleColor.Black
+            ),
+            new ConsoleText(_topRightCorner, _tableBorderColor, ConsoleColor.Black),
+        };
+        PrintLine(tableTitle);
+    }
+
+    private void PrintMiddleRow()
+    {
+        string title = " VS ";
+        int paddingLeft = (_tableWidth - title.Length - 2) / 2;
+        int paddingRight = (paddingLeft % 2 != 0) ? paddingLeft : paddingLeft - 1;
+        var tableTitle = new List<ConsoleText>()
+        {
+            new ConsoleText(_dividerLeft, _tableBorderColor, ConsoleColor.Black),
+            new ConsoleText(
+                new string(_divider, paddingLeft),
+                _tableBorderColor,
+                ConsoleColor.Black
+            ),
+            new ConsoleText(title, _tableBorderColor, ConsoleColor.Black),
+            new ConsoleText(
+                new string(_divider, paddingRight),
+                _tableBorderColor,
+                ConsoleColor.Black
+            ),
+            new ConsoleText(_dividerRight, _tableBorderColor, ConsoleColor.Black),
+        };
+        PrintLine(tableTitle);
+    }
+
+    private void PrintBottomRow()
+    {
+        var tableTitle = new List<ConsoleText>()
+        {
+            new ConsoleText(_bottomLeftCorner, _tableBorderColor, ConsoleColor.Black),
+            new ConsoleText(
+                new string(_horizontalOutsideBorder, _tableWidth - 2),
+                _tableBorderColor,
+                ConsoleColor.Black
+            ),
+            new ConsoleText(_bottomRightCorner, _tableBorderColor, ConsoleColor.Black),
+        };
+        PrintLine(tableTitle);
     }
 }
