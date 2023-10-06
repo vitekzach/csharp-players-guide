@@ -32,6 +32,8 @@ public class Character
         set => _hp = Math.Clamp(value, 0, HpMax);
     }
 
+    public string? Taunt { get; init; }
+
     public Character(
         string name,
         IChooseActionInterface actionChooser,
@@ -40,7 +42,8 @@ public class Character
         int xP,
         List<GearItem>? startingGearItem = null,
         AttackModifier? defensiveAttackModifier = null,
-        AttackModifier? offensiveAttackModifier = null
+        AttackModifier? offensiveAttackModifier = null,
+        string? taunt = null
     )
     {
         Name = name;
@@ -55,6 +58,7 @@ public class Character
         if (offensiveAttackModifier != null)
             OffensiveAttackModifier = offensiveAttackModifier;
         Moves = CreateMoveChoiceList();
+        Taunt = taunt;
     }
 
     public virtual void TakeTurn(Battle battle)
@@ -185,7 +189,7 @@ internal static class CharacterCreator
                     name,
                     actionChooser,
                     AttackCreator.CreateAttack(AttackEnum.Punch),
-                    25,
+                    10,
                     50,
                     new List<GearItem>
                     {
@@ -204,7 +208,7 @@ internal static class CharacterCreator
                     "VIN FLETCHER",
                     actionChooser,
                     AttackCreator.CreateAttack(AttackEnum.Punch),
-                    15,
+                    5,
                     25,
                     new List<GearItem> { GearCreator.CreateGearItem(GearItemEnum.VinsBow) }
                 );
@@ -213,7 +217,7 @@ internal static class CharacterCreator
                     "MYLARA",
                     actionChooser,
                     AttackCreator.CreateAttack(AttackEnum.CannonShot),
-                    15,
+                    5,
                     25
                 );
             case HeroCharacter.Skorin:
@@ -221,7 +225,7 @@ internal static class CharacterCreator
                     "SKORIN",
                     actionChooser,
                     AttackCreator.CreateAttack(AttackEnum.CannonShot),
-                    15,
+                    5,
                     25
                 );
         }
@@ -244,7 +248,8 @@ internal static class CharacterCreator
                     actionChooser,
                     AttackCreator.CreateAttack(AttackEnum.BoneCrunch),
                     5,
-                    1
+                    1,
+                    taunt: "We will repel your spineless assault!"
                 );
             case MonsterCharacter.SkeletonWithDagger:
                 return new Character(
@@ -253,7 +258,8 @@ internal static class CharacterCreator
                     AttackCreator.CreateAttack(AttackEnum.BoneCrunch),
                     5,
                     3,
-                    new List<GearItem> { GearCreator.CreateGearItem(GearItemEnum.Dagger) }
+                    new List<GearItem> { GearCreator.CreateGearItem(GearItemEnum.Dagger) },
+                    taunt: "We will repel your spineless assault!"
                 );
             case MonsterCharacter.StoneAmarok:
                 return new Character(
@@ -272,8 +278,9 @@ internal static class CharacterCreator
                     "THE UNCODED ONE",
                     actionChooser,
                     AttackCreator.CreateAttack(AttackEnum.Unraveling),
-                    15,
-                    25
+                    50,
+                    50,
+                    taunt: "<<THE UNRAVELLING OF ALL THINGS IS INEVITABLE >>"
                 );
         }
 

@@ -246,6 +246,11 @@ public class Battle
                 MessageType.Info,
                 $"It is {character.Name}'s turn..."
             );
+            if (character.Taunt != null)
+                ConsoleHelpers.WriteLineWithColoredConsole(
+                    MessageType.Attack,
+                    $"{character.Name}: \"{character.Taunt}\""
+                );
             _tablePrinter.PrintInformationTable(this, character);
             // PrintCharacterTurnInfo(character);
 
@@ -309,7 +314,7 @@ internal class RoundTablePrinter
     private readonly ConsoleColor _tableBorderColor = ConsoleColor.Blue;
     private readonly char _healthSymbol = '▉';
 
-    private readonly int _tableWidth = 100;
+    private readonly int _tableWidth = 120;
     private readonly int _ListMemberPadding = 2;
 
     private readonly string _verticalOutsideBorder = "║";
@@ -351,7 +356,6 @@ internal class RoundTablePrinter
 
     private void PrintPartyHeader(Party party)
     {
-        var backgroundColor = ConsoleColor.Black;
         var header = new List<ConsoleText>()
         {
             new ConsoleText(_verticalOutsideBorder, _tableBorderColor, ConsoleColor.Black),
@@ -533,7 +537,7 @@ internal class RoundTablePrinter
         string warningSymbols = "[!]";
         if (character.Hp <= character.HpMax / 4)
             heroName.Add(new ConsoleText(warningSymbols, ConsoleColor.Yellow, backgroundColor));
-        if (character.Hp <= character.HpMax / 10)
+        else if (character.Hp <= character.HpMax / 10)
             heroName.Add(new ConsoleText(warningSymbols, ConsoleColor.Red, backgroundColor));
         heroName.Add(new ConsoleText(character.ToString(), foregroundColor, backgroundColor));
         heroName.Add(

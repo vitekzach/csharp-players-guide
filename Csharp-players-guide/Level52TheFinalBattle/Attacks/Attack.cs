@@ -96,8 +96,8 @@ internal static class AttackCreator
                     DamageType.NoDamage,
                     AttackDamageGenerationEnum.RandomNumberBased
                 ),
-            AttackEnum.Bite => new Attack("BITE ATTACK", 1, DamageType.Normal, 100),
-            AttackEnum.BoneCrunch => new Attack("BONE CRUNCH", 1, DamageType.Normal, 50),
+            AttackEnum.Bite => new Attack("BITE ATTACK", 8, DamageType.Normal, 100),
+            AttackEnum.BoneCrunch => new Attack("BONE CRUNCH", 8, DamageType.Normal, 50),
             AttackEnum.Punch => new Attack("PUNCH", 1, DamageType.Normal, 50),
             AttackEnum.QuickShot => new Attack("QUICK SHOT", 3, DamageType.Normal, 50),
             AttackEnum.Slash => new Attack("SLASH", 2, DamageType.Normal, 100),
@@ -105,7 +105,7 @@ internal static class AttackCreator
             AttackEnum.Unraveling
                 => new Attack(
                     "UNRAVELING ATTACK",
-                    4,
+                   10,
                     DamageType.Decoding,
                     AttackDamageGenerationEnum.RandomNumberBased
                 ),

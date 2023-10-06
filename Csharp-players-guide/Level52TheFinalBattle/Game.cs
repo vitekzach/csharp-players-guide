@@ -42,7 +42,6 @@ public class Game
         );
 
         Battles = levelProvider.GetBattles(heroActionChooser, monsterActionChooser);
-        Console.WriteLine(Battles.Count);
     }
 
     private GameMode GetGameMode()
