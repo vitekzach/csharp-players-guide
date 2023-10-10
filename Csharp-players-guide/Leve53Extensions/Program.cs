@@ -10,5 +10,10 @@
 // Console.WriteLine($"{result} square meters");
 
 
-var map = new Map();
-map.PrintMap();
+// ----------------------------------------------------------------------- The Map
+// var map = new Map();
+// map.PrintMap();
+
+
+// ----------------------------------------------------------------------- Premixed potions
+PotionRecognizer.GetPotion(new List<Ingredient>() { Ingredient.Water, Ingredient.Stardust, Ingredient.ShadowGlass, Ingredient.EyeshineGem, Ingredient.EyeshineGem });
