@@ -4,7 +4,7 @@ internal static class ProgramMakingProgram
   {
     Console.Write("Choose unit: ");
     string unit = Console.ReadLine();
-    Console.Write("Choose type(int, float, double): ");
+    Console.Write("Choose type(int, float, double: ");
     string type = Console.ReadLine();
 
     string program = $$"""
