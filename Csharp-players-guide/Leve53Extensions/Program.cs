@@ -25,14 +25,3 @@ Console.WriteLine(BlastDamageCalculator.CalculateBlastDamage(20, 18));
 Console.WriteLine(BlastDamageCalculator.CalculateBlastDamage(20f, 18f));
 Console.WriteLine(BlastDamageCalculator.CalculateBlastDamage((double)20, (double)18));
 Console.WriteLine(BlastDamageCalculator.CalculateBlastDamage((decimal)20, (decimal)18));
-
-
-
-
-
-
-
-
-
-
-
